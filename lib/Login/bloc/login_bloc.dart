@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:lista_pacientes/login/bloc/bloc.dart';
-import 'package:lista_pacientes/login/validators.dart';
-import 'package:lista_pacientes/user_repository.dart';
+import 'package:lista_pacientes/Login/bloc/bloc.dart';
+import 'package:lista_pacientes/User/repository/user_repository.dart';
+import 'package:lista_pacientes/common/validators.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 

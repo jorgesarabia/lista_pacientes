@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:lista_pacientes/authentication_bloc/authentication_event.dart';
-import 'package:lista_pacientes/authentication_bloc/bloc.dart';
-import 'package:lista_pacientes/user_repository.dart';
+import 'package:lista_pacientes/User/repository/user_repository.dart';
+import 'package:lista_pacientes/common/authentication_bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 class AuthenticationBloc

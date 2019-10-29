@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
-import 'package:lista_pacientes/authentication_bloc/bloc.dart';
-import 'package:lista_pacientes/home_screen.dart';
-import 'package:lista_pacientes/login/login_screen.dart';
-import 'package:lista_pacientes/simple_bloc_delegate.dart';
-import 'package:lista_pacientes/splash_screen.dart';
-import 'package:lista_pacientes/user_repository.dart';
+import 'package:lista_pacientes/Home/ui/screens/home_screen.dart';
+import 'package:lista_pacientes/Login/ui/screens/login_screen.dart';
+import 'package:lista_pacientes/User/repository/user_repository.dart';
+import 'package:lista_pacientes/common/authentication_bloc/bloc.dart';
+import 'package:lista_pacientes/common/simple_bloc_delegate.dart';
+import 'package:lista_pacientes/widgets/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +43,7 @@ class App extends StatelessWidget {
           if (state is Authenticated) {
             return HomeScreen(name: state.displayName);
           }
+          return CircularProgressIndicator();
         },
       ),
     );
