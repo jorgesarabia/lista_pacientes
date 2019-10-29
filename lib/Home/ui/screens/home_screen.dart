@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
+import 'package:lista_pacientes/User/ui/screens/update_user_screen.dart';
 import 'package:lista_pacientes/common/authentication_bloc/bloc.dart';
 import 'package:lista_pacientes/common/singletons.dart';
 
@@ -34,6 +35,18 @@ class HomeScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Center(child: Text('Welcome $nombre!')),
+          Center(
+            child: FlatButton(
+              child: Text("Editar Usuario"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => UpdateUserScreen()),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
