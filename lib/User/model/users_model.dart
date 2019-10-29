@@ -1,13 +1,13 @@
 import 'package:flutter/widgets.dart';
 
-class User {
+class UsersModel {
   final String uid;
   final String email;
   final String name;
   final String ci;
   final int nroLibreta;
 
-  User({
+  UsersModel({
     Key key,
     @required this.uid,
     @required this.email,

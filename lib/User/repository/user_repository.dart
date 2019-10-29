@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lista_pacientes/User/model/users_model.dart';
+import 'package:lista_pacientes/common/singletons.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
+  Singletons _singletons = Singletons();
 
   UserRepository({FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
@@ -25,6 +28,11 @@ class UserRepository {
   }
 
   Future<String> getUser() async {
+    var user = await _firebaseAuth.currentUser();
+    _singletons.setUsersModel( UsersModel(
+      email: user.email,
+      uid: user.uid,
+    ));
     return (await _firebaseAuth.currentUser()).email;
   }
 }
