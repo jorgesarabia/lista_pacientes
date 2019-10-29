@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lista_pacientes/Login/bloc/bloc.dart';
 import 'package:lista_pacientes/Login/ui/widgets/login_button.dart';
-import 'package:lista_pacientes/User/repository/user_repository.dart';
+import 'package:lista_pacientes/User/repository/auth_repository.dart';
 import 'package:lista_pacientes/common/authentication_bloc/bloc.dart';
 
 class LoginForm extends StatefulWidget {
-  final UserRepository _userRepository;
+  final AuthRepository _authRepository;
 
-  LoginForm({Key key, @required UserRepository userRepository})
-      : assert(userRepository != null),
-        _userRepository = userRepository,
+  LoginForm({Key key, @required AuthRepository authRepository})
+      : assert(authRepository != null),
+        _authRepository = authRepository,
         super(key: key);
 
   State<LoginForm> createState() => _LoginFormState();
@@ -22,7 +22,7 @@ class _LoginFormState extends State<LoginForm> {
 
   LoginBloc _loginBloc;
 
-  UserRepository get _userRepository => widget._userRepository;
+  AuthRepository get _authRepository => widget._authRepository;
 
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;

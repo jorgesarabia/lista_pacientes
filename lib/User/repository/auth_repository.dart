@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/common/singletons.dart';
 
-class UserRepository {
+class AuthRepository {
   final FirebaseAuth _firebaseAuth;
   Singletons _singletons = Singletons();
 
-  UserRepository({FirebaseAuth firebaseAuth})
+  AuthRepository({FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   Future<void> signInWithCredentials(String email, String password) {
@@ -33,6 +33,6 @@ class UserRepository {
       email: user.email,
       uid: user.uid,
     ));
-    return (await _firebaseAuth.currentUser()).email;
+    return user.email;
   }
 }

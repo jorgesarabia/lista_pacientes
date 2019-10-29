@@ -1,18 +1,18 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:lista_pacientes/Login/bloc/bloc.dart';
-import 'package:lista_pacientes/User/repository/user_repository.dart';
+import 'package:lista_pacientes/User/repository/auth_repository.dart';
 import 'package:lista_pacientes/common/validators.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  UserRepository _userRepository;
+  AuthRepository _authRepository;
 
   LoginBloc({
-    @required UserRepository userRepository,
-  })  : assert(userRepository != null),
-        _userRepository = userRepository;
+    @required AuthRepository authRepository,
+  })  : assert(authRepository != null),
+        _authRepository = authRepository;
 
   @override
   LoginState get initialState => LoginState.empty();
@@ -64,7 +64,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }) async* {
     yield LoginState.loading();
     try {
-      await _userRepository.signInWithCredentials(email, password);
+      await _authRepository.signInWithCredentials(email, password);
       yield LoginState.success();
     } catch (_) {
       yield LoginState.failure();
