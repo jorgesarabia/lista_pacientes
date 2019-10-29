@@ -24,7 +24,6 @@ void main() {
 
 class App extends StatelessWidget {
   final AuthRepository _authRepository;
-  final Singletons _singletons = Singletons();
 
   App({Key key, @required AuthRepository authRepository})
       : assert(authRepository != null),
@@ -43,7 +42,7 @@ class App extends StatelessWidget {
             return LoginScreen(authRepository: _authRepository);
           }
           if (state is Authenticated) {
-            return HomeScreen(name: _singletons.getUsersModel().email);
+            return HomeScreen();
           }
           return CircularProgressIndicator();
         },

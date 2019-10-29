@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
-import 'package:lista_pacientes/common/singletons.dart';
+import 'package:lista_pacientes/User/repository/cloud_firestore_repository.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
-  Singletons _singletons = Singletons();
+  final CloudFirestoreRepository _cloudFire = CloudFirestoreRepository();
 
   AuthRepository({FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
@@ -24,15 +24,21 @@ class AuthRepository {
 
   Future<bool> isSignedIn() async {
     final currentUser = await _firebaseAuth.currentUser();
+    updateUser(currentUser);
     return currentUser != null;
   }
 
   Future<String> getUser() async {
     var user = await _firebaseAuth.currentUser();
-    _singletons.setUsersModel( UsersModel(
+    updateUser(user);
+    return user.email;
+  }
+
+  updateUser(FirebaseUser user) async {
+    await _cloudFire.updateUserData(UsersModel(
       email: user.email,
       uid: user.uid,
     ));
-    return user.email;
   }
+
 }

@@ -11,9 +11,9 @@ class Singletons {
     return _instance;
   }
 
-  void setUsersModel(UsersModel usersModel) {
+  void setUser(UsersModel usersModel) {
     this._user = usersModel;
   }
 
-  UsersModel getUsersModel() => _user;
+  UsersModel getUser() => _user;
 }
