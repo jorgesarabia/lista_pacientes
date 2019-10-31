@@ -32,18 +32,6 @@ class CIChanged extends PacientesEvent {
   String toString() => 'CIChanged { ci :$ci }';
 }
 
-class EmailChanged extends PacientesEvent {
-  final String email;
-
-  const EmailChanged({@required this.email});
-
-  @override
-  List<Object> get props => [email];
-
-  @override
-  String toString() => 'EmailChanged { email :$email }';
-}
-
 class NroLibretaChanged extends PacientesEvent {
   final String nroLibreta;
 
@@ -59,10 +47,12 @@ class NroLibretaChanged extends PacientesEvent {
 class CrearNuevoPaciente extends PacientesEvent {
   final String nombre;
   final String nroLibreta;
+  final String ci;
 
   const CrearNuevoPaciente({
     @required this.nombre,
     @required this.nroLibreta,
+    @required this.ci,
   });
 
   @override
@@ -70,6 +60,11 @@ class CrearNuevoPaciente extends PacientesEvent {
 
   @override
   String toString() {
-    return 'CrearNuevoPaciente { nombre: $nombre, nroLibreta: $nroLibreta }';
+    return '''
+    CrearNuevoPaciente { 
+      nombre: $nombre, 
+      nroLibreta: $nroLibreta,
+      ci: $ci,
+    }''';
   }
 }

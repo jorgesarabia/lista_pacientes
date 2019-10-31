@@ -11,6 +11,8 @@ class PacienteForm extends StatefulWidget {
 
 class _PacienteFormState extends State<PacienteForm> {
   final TextEditingController _nombreController = TextEditingController();
+  final TextEditingController _ciController = TextEditingController();
+  final TextEditingController _nroLibretaController = TextEditingController();
 
   PacientesBloc _pacientesBloc;
 
@@ -19,6 +21,8 @@ class _PacienteFormState extends State<PacienteForm> {
     super.initState();
     _pacientesBloc = BlocProvider.of<PacientesBloc>(context);
     _nombreController.addListener(_onNombreChanged);
+    _ciController.addListener(_onCiChanged);
+    _nroLibretaController.addListener(_onNroLibretaChanged);
   }
 
   @override
@@ -43,13 +47,37 @@ class _PacienteFormState extends State<PacienteForm> {
           TextFormField(
             controller: _nombreController,
             decoration: InputDecoration(
-              icon: Icon(Icons.text_fields),
-              labelText: 'Nombre',
+              icon: Icon(Icons.person),
+              labelText: 'Nombre Paciente',
             ),
             autovalidate: true,
             autocorrect: false,
             validator: (_) {
-              return !state.isNameValid ? '' : null;
+              return !state.isNameValid ? 'Campo Requerido' : null;
+            },
+          ),
+          TextFormField(
+            controller: _ciController,
+            decoration: InputDecoration(
+              icon: Icon(Icons.credit_card),
+              labelText: 'C.I.',
+            ),
+            autovalidate: true,
+            autocorrect: false,
+            validator: (_) {
+              return !state.isCiValid ? 'Campo Requerido' : null;
+            },
+          ),
+          TextFormField(
+            controller: _nroLibretaController,
+            decoration: InputDecoration(
+              icon: Icon(Icons.library_books),
+              labelText: 'Libreta Nro.',
+            ),
+            autovalidate: true,
+            autocorrect: false,
+            validator: (_) {
+              return !state.isNroLibretaValid ? 'Campo Requerido' : null;
             },
           ),
           Padding(
@@ -69,10 +97,13 @@ class _PacienteFormState extends State<PacienteForm> {
     );
   }
 
-  bool get isPopulated => _nombreController.text.isNotEmpty;
+  bool get isPopulated =>
+      _nombreController.text.isNotEmpty &&
+      _ciController.text.isNotEmpty &&
+      _nroLibretaController.text.isNotEmpty;
 
   bool isButtonEnabled(PacientesState state) {
-    return isPopulated;
+    return isPopulated && !state.isSubmitting && state.isFormValid;
   }
 
   @override
@@ -88,11 +119,24 @@ class _PacienteFormState extends State<PacienteForm> {
     );
   }
 
+  void _onCiChanged() {
+    _pacientesBloc.add(
+      CIChanged(ci: _ciController.text),
+    );
+  }
+
+  void _onNroLibretaChanged() {
+    _pacientesBloc.add(
+      NroLibretaChanged(nroLibreta: _nroLibretaController.text),
+    );
+  }
+
   void _onFormSubmitted() {
     _pacientesBloc.add(
       CrearNuevoPaciente(
         nombre: _nombreController.text,
-        nroLibreta: "100",
+        nroLibreta: _nroLibretaController.text,
+        ci: _ciController.text,
       ),
     );
   }

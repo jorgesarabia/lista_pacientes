@@ -14,10 +14,15 @@ class PacientesBloc extends Bloc<PacientesEvent, PacientesState> {
   Stream<PacientesState> mapEventToState(PacientesEvent event) async* {
     if (event is NombreChanged) {
       yield* _mapNombreChangedToState(event.nombre);
+    } else if (event is CIChanged) {
+      yield* _mapCiChangedToState(event.ci);
+    } else if (event is NroLibretaChanged) {
+      yield* _mapNroLibretaChangedToState(event.nroLibreta);
     } else if (event is CrearNuevoPaciente) {
       yield* _mapCrearPacienteToState(
         nombre: event.nombre,
         nroLibreta: event.nroLibreta,
+        ci: event.ci,
       );
     }
   }
@@ -28,15 +33,30 @@ class PacientesBloc extends Bloc<PacientesEvent, PacientesState> {
     );
   }
 
+  Stream<PacientesState> _mapCiChangedToState(String ci) async* {
+    yield state.update(
+      isCiValid: ci.isNotEmpty,
+    );
+  }
+
+  Stream<PacientesState> _mapNroLibretaChangedToState(
+      String nroLibreta) async* {
+    yield state.update(
+      isNroLibretaValid: nroLibreta.isNotEmpty,
+    );
+  }
+
   Stream<PacientesState> _mapCrearPacienteToState({
     String nombre,
     String nroLibreta,
+    String ci,
   }) async* {
     yield PacientesState.loading();
     try {
       await _pacientesRepository.updateOrCreate(PacientesModel(
         nombre: nombre,
         nroLibreta: nroLibreta,
+        ci: ci,
       ));
       yield PacientesState.success();
     } catch (_) {
