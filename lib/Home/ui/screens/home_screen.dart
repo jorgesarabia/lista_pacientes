@@ -33,7 +33,6 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Text('Welcome $nombre!'),
           FlatButton(

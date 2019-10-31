@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_pacientes/Pacientes/ui/screens/new_screen.dart';
 import 'package:lista_pacientes/Pacientes/ui/widgets/paciente_card.dart';
 
 class PacientesListScreen extends StatefulWidget {
@@ -19,8 +20,13 @@ class _PacientesListScreenState extends State<PacientesListScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           print("Se debe cargar un nuevo Paciente");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => NewPacienteScreen()),
+          );
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
@@ -28,25 +34,85 @@ class _PacientesListScreenState extends State<PacientesListScreen> {
     );
   }
 
-  Widget listaDePacientes(){
+  Widget listaDePacientes() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
-        PacienteCard(name: "Jorge Sarabia",details: "CI: 5.555.555",comment: "Lib. nro: 100",),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
+        PacienteCard(
+          name: "Jorge Sarabia",
+          details: "CI: 5.555.555",
+          comment: "Lib. nro: 100",
+        ),
       ],
     );
   }
