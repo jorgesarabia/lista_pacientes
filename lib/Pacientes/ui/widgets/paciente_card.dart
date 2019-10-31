@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:lista_pacientes/Pacientes/model/pacientes_model.dart';
 
 class PacienteCard extends StatelessWidget {
-  // final String pathImage;
-  final String name;
-  final String details;
-  final String comment;
+  final PacientesModel pacientesModel;
 
   PacienteCard({
     Key key,
-    // @required this.pathImage,
-    @required this.name,
-    @required this.details,
-    @required this.comment,
+    @required this.pacientesModel,
   });
 
   @override
   Widget build(BuildContext context) {
-    final userComment = Container(
+    final _pacienteLibreta = Container(
       margin: EdgeInsets.only(left: 20.0),
       child: Text(
-        comment,
+        "Libreta nro: ${pacientesModel.nroLibreta}",
         textAlign: TextAlign.left,
         style: TextStyle(
           fontFamily: "Lato",
@@ -29,10 +24,10 @@ class PacienteCard extends StatelessWidget {
       ),
     );
 
-    final userInfo = Container(
+    final _pacienteCI = Container(
       margin: EdgeInsets.only(left: 20.0),
       child: Text(
-        details,
+        "CI: ${pacientesModel.ci}",
         textAlign: TextAlign.left,
         style: TextStyle(
           fontFamily: "Lato",
@@ -42,10 +37,10 @@ class PacienteCard extends StatelessWidget {
       ),
     );
 
-    final userName = Container(
+    final _pacienteNombre = Container(
       margin: EdgeInsets.only(left: 20.0),
       child: Text(
-        name,
+        "${pacientesModel.nombre}",
         textAlign: TextAlign.left,
         style: TextStyle(
           fontFamily: "Lato",
@@ -57,9 +52,9 @@ class PacienteCard extends StatelessWidget {
     final userDetails = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        userName,
-        userInfo,
-        userComment,
+        _pacienteNombre,
+        _pacienteCI,
+        _pacienteLibreta,
       ],
     );
 

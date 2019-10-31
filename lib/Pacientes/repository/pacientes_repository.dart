@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:lista_pacientes/Pacientes/model/pacientes_model.dart';
+import 'package:lista_pacientes/Pacientes/ui/widgets/paciente_card.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/common/singletons.dart';
 
@@ -11,7 +13,8 @@ class PacientesRepository {
 
   Future<void> updateOrCreate(PacientesModel pacientesModel) async {
     UsersModel user = _singletons.getUser();
-    DocumentReference ref = _db.collection("$PACIENTES-${user.uid}").document(pacientesModel.id);
+    DocumentReference ref =
+        _db.collection("$PACIENTES-${user.uid}").document(pacientesModel.id);
     print("Se va crear o actualizar con:");
     print(pacientesModel.toString());
     await ref.get().then((DocumentSnapshot s) {
@@ -25,12 +28,44 @@ class PacientesRepository {
       } else {
         print("El dato no existe, se crea.");
         return ref.setData({
-        "nombre": pacientesModel.nombre,
-        "ci": pacientesModel.ci,
-        "nroLibreta": pacientesModel.nroLibreta,
-        "created_at": DateTime.now(),
+          "nombre": pacientesModel.nombre,
+          "ci": pacientesModel.ci,
+          "nroLibreta": pacientesModel.nroLibreta,
+          "created_at": DateTime.now(),
         }, merge: true);
       }
     });
+  }
+
+  Future<List<Widget>> getPacientes(String query) async {
+    UsersModel user = _singletons.getUser();
+    CollectionReference ref = _db.collection("$PACIENTES-${user.uid}");
+    List<Widget> list = [];
+    print("Se busca: $query");
+    await ref.getDocuments().then((QuerySnapshot querySnapshot) {
+      print("Se encuentran: $query");
+      String nombre;
+      String ci;
+      querySnapshot.documents.forEach((f) {
+        print(f.data["nombre"]);
+        nombre = f.data["nombre"];
+        ci = f.data["ci"];
+        bool a = nombre.toLowerCase().contains(query.toLowerCase());
+        bool b = ci.toLowerCase().contains(query.toLowerCase());
+        if (a || b) {
+          list.add(PacienteCard(
+            pacientesModel: PacientesModel(
+              ci: ci,
+              nombre: nombre,
+              id: f.data["id"],
+              nroLibreta: f.data["nroLibreta"],
+            ),
+          ));
+        }
+      });
+    }).catchError((_) {
+      print("Hay un error");
+    });
+    return list;
   }
 }

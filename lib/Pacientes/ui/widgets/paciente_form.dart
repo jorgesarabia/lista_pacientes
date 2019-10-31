@@ -141,6 +141,8 @@ class _PacienteFormState extends State<PacienteForm> {
   @override
   void dispose() {
     _nombreController.dispose();
+    _ciController.dispose();
+    _nroLibretaController.dispose();
     super.dispose();
   }
 
