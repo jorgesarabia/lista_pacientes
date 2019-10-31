@@ -17,14 +17,14 @@ class PacientesRepository {
     await ref.get().then((DocumentSnapshot s) {
       if (s.exists) {
         print("El dato ya existe, solo se actualiza.");
-        ref.updateData({
+        return ref.updateData({
           "nombre": pacientesModel.nombre ?? s.data["nombre"],
           "ci": pacientesModel.ci ?? s.data["ci"],
           "nroLibreta": pacientesModel.nroLibreta ?? s.data["nroLibreta"],
         });
       } else {
         print("El dato no existe, se crea.");
-        ref.setData({
+        return ref.setData({
         "nombre": pacientesModel.nombre,
         "ci": pacientesModel.ci,
         "nroLibreta": pacientesModel.nroLibreta,

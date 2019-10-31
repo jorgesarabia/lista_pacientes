@@ -28,7 +28,39 @@ class _PacienteFormState extends State<PacienteForm> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<PacientesBloc, PacientesState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.isFailure) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text('Error al crear el paciente'), Icon(Icons.error)],
+                ),
+                backgroundColor: Colors.red,
+              ),
+            );
+        }
+        if (state.isSubmitting) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Creando Paciente ..."),
+                    CircularProgressIndicator(),
+                  ],
+                ),
+              ),
+            );
+        }
+        if (state.isSuccess) {
+          Navigator.pop(context);
+        }
+      },
       child: BlocBuilder<PacientesBloc, PacientesState>(
         builder: (context, state) {
           return Padding(
