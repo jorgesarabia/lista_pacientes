@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lista_pacientes/Pacientes/find_bloc/bloc.dart';
 import 'package:lista_pacientes/Pacientes/model/pacientes_model.dart';
+import 'package:lista_pacientes/Pacientes/ui/screens/detail_screen.dart';
 import 'package:lista_pacientes/Pacientes/ui/screens/new_screen.dart';
 import 'package:lista_pacientes/Pacientes/ui/widgets/paciente_card.dart';
+import 'package:lista_pacientes/Pacientes/ui/widgets/search_button.dart';
 
 class PacientesLista extends StatefulWidget {
   @override
@@ -22,7 +24,7 @@ class _PacientesListaState extends State<PacientesLista> {
     super.initState();
     _filtrar();
     _findBloc = BlocProvider.of<FindBloc>(context);
-    _searchController.addListener(_onQueryChanged);
+    _searchController.addListener(_filtrar);
     _findFromSource();
   }
 
@@ -90,7 +92,7 @@ class _PacientesListaState extends State<PacientesLista> {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => NewPacienteScreen()),
-          ).then((_){
+          ).then((_) {
             setState(() {
               _findFromSource();
             });
@@ -106,10 +108,6 @@ class _PacientesListaState extends State<PacientesLista> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
-  }
-
-  void _onQueryChanged() {
-    _filtrar();
   }
 
   void _findFromSource() {
@@ -129,13 +127,23 @@ class _PacientesListaState extends State<PacientesLista> {
       bool b = ci.toLowerCase().contains(query.toLowerCase());
       if (a || b) {
         listaFiltrada.add(
-          PacienteCard(pacientesModel: item),
+          GestureDetector(
+            child: PacienteCard(pacientesModel: item),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => DetailScreen(
+                          pacientesModel: item,
+                        )),
+              );
+            },
+          ),
         );
       }
     });
     setState(() {
       if (_searchController.text.length > 0) {
-        _searchIcon = Icon(Icons.close);
         _searchIcon = GestureDetector(
           child: Icon(Icons.close),
           onTap: () {
@@ -147,18 +155,10 @@ class _PacientesListaState extends State<PacientesLista> {
         _searchIcon = Icon(Icons.search);
       }
       List<Widget> searchBar = [
-        TextField(
-          controller: _searchController,
-          decoration: InputDecoration(
-            prefixIcon: _searchIcon,
-            hintText: 'Buscar ...',
-            fillColor: Colors.white,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              borderSide: BorderSide(color: Colors.blue),
-            ),
-            filled: true,
-          ),
+        SearchButton(
+          searchController: _searchController,
+          searchIcon: _searchIcon,
+          title: "Buscar ...",
         ),
       ];
 
