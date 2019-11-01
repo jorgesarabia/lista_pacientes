@@ -13,7 +13,7 @@ class PacientesLista extends StatefulWidget {
 class _PacientesListaState extends State<PacientesLista> {
   List<PacientesModel> listaPacientes = [];
   List<Widget> listaFiltrada = [];
-  Icon _searchIcon = Icon(Icons.search);
+  Widget _searchIcon = Icon(Icons.search);
   final TextEditingController _searchController = TextEditingController();
   FindBloc _findBloc;
 
@@ -140,6 +140,13 @@ class _PacientesListaState extends State<PacientesLista> {
     setState(() {
       if (_searchController.text.length > 0) {
         _searchIcon = Icon(Icons.close);
+        _searchIcon = GestureDetector(
+          child: Icon(Icons.close),
+          onTap: (){
+            _searchController.text = "";
+            _filtrar();
+          },
+          );
       } else {
         _searchIcon = Icon(Icons.search);
       }
