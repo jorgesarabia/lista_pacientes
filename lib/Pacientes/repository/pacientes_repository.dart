@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:lista_pacientes/Pacientes/model/pacientes_model.dart';
-import 'package:lista_pacientes/Pacientes/ui/widgets/paciente_card.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/common/singletons.dart';
 
@@ -37,31 +35,21 @@ class PacientesRepository {
     });
   }
 
-  Future<List<Widget>> getPacientes(String query) async {
+  Future<List<PacientesModel>> getPacientes() async {
     UsersModel user = _singletons.getUser();
     CollectionReference ref = _db.collection("$PACIENTES-${user.uid}");
-    List<Widget> list = [];
-    print("Se busca: $query");
+    List<PacientesModel> list = [];
     await ref.getDocuments().then((QuerySnapshot querySnapshot) {
-      print("Se encuentran: $query");
-      String nombre;
-      String ci;
       querySnapshot.documents.forEach((f) {
         print(f.data["nombre"]);
-        nombre = f.data["nombre"];
-        ci = f.data["ci"];
-        bool a = nombre.toLowerCase().contains(query.toLowerCase());
-        bool b = ci.toLowerCase().contains(query.toLowerCase());
-        if (a || b) {
-          list.add(PacienteCard(
-            pacientesModel: PacientesModel(
-              ci: ci,
-              nombre: nombre,
-              id: f.data["id"],
-              nroLibreta: f.data["nroLibreta"],
-            ),
-          ));
-        }
+        list.add(
+          PacientesModel(
+            id: f.data["id"],
+            ci: f.data["ci"],
+            nombre: f.data["nombre"],
+            nroLibreta: f.data["nroLibreta"],
+          ),
+        );
       });
     }).catchError((_) {
       print("Hay un error");

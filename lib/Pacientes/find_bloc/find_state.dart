@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:lista_pacientes/Pacientes/model/pacientes_model.dart';
 import 'package:meta/meta.dart';
 
 class FindState {
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
-  List<Widget> list;
+  List<PacientesModel> list;
 
-  List<Widget> get getLista => list;
+  List<PacientesModel> get getLista => list;
 
   FindState({
     @required this.isSubmitting,
@@ -35,7 +36,7 @@ class FindState {
   }
 
   factory FindState.success({
-    List<Widget> list,
+    List<PacientesModel> list,
   }) {
     return FindState(
       list: list,
