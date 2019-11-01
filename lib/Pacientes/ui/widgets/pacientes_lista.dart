@@ -98,16 +98,6 @@ class _PacientesListaState extends State<PacientesLista> {
     );
   }
 
-  void _searchPressed() {
-    setState(() {
-      if (this._searchIcon.icon == Icons.search) {
-        _searchIcon = Icon(Icons.close);
-      } else {
-        _searchIcon = Icon(Icons.search);
-      }
-    });
-  }
-
   @override
   void dispose() {
     _searchController.dispose();
@@ -123,23 +113,7 @@ class _PacientesListaState extends State<PacientesLista> {
   }
 
   void _filtrar() {
-    print("Filtra");
     listaFiltrada = [];
-    List<Widget> lista = [
-      TextField(
-        controller: _searchController,
-        decoration: InputDecoration(
-          prefixIcon: _searchIcon,
-          hintText: 'Buscar ...',
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            borderSide: BorderSide(color: Colors.blue),
-          ),
-          filled: true,
-        ),
-      ),
-    ];
 
     if (_searchController.text.length > 0) {
       String nombre;
@@ -158,13 +132,34 @@ class _PacientesListaState extends State<PacientesLista> {
       });
     } else {
       listaPacientes.forEach((PacientesModel item) {
-          listaFiltrada.add(
-            PacienteCard(pacientesModel: item),
-          );
+        listaFiltrada.add(
+          PacienteCard(pacientesModel: item),
+        );
       });
     }
     setState(() {
-      listaFiltrada = List.from(lista)..addAll(listaFiltrada);
+      if (_searchController.text.length > 0) {
+        _searchIcon = Icon(Icons.close);
+      } else {
+        _searchIcon = Icon(Icons.search);
+      }
+      List<Widget> searchBar = [
+        TextField(
+          controller: _searchController,
+          decoration: InputDecoration(
+            prefixIcon: _searchIcon,
+            hintText: 'Buscar ...',
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              borderSide: BorderSide(color: Colors.blue),
+            ),
+            filled: true,
+          ),
+        ),
+      ];
+
+      listaFiltrada = List.from(searchBar)..addAll(listaFiltrada);
     });
   }
 }
