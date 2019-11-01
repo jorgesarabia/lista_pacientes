@@ -90,7 +90,11 @@ class _PacientesListaState extends State<PacientesLista> {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => NewPacienteScreen()),
-          );
+          ).then((_){
+            setState(() {
+              _findFromSource();
+            });
+          });
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
@@ -114,39 +118,31 @@ class _PacientesListaState extends State<PacientesLista> {
 
   void _filtrar() {
     listaFiltrada = [];
+    String nombre;
+    String ci;
+    String query = _searchController.text;
 
-    if (_searchController.text.length > 0) {
-      String nombre;
-      String ci;
-      String query = _searchController.text;
-      listaPacientes.forEach((PacientesModel item) {
-        nombre = item.nombre;
-        ci = item.ci;
-        bool a = nombre.toLowerCase().contains(query.toLowerCase());
-        bool b = ci.toLowerCase().contains(query.toLowerCase());
-        if (a || b) {
-          listaFiltrada.add(
-            PacienteCard(pacientesModel: item),
-          );
-        }
-      });
-    } else {
-      listaPacientes.forEach((PacientesModel item) {
+    listaPacientes.forEach((PacientesModel item) {
+      nombre = item.nombre;
+      ci = item.ci;
+      bool a = nombre.toLowerCase().contains(query.toLowerCase());
+      bool b = ci.toLowerCase().contains(query.toLowerCase());
+      if (a || b) {
         listaFiltrada.add(
           PacienteCard(pacientesModel: item),
         );
-      });
-    }
+      }
+    });
     setState(() {
       if (_searchController.text.length > 0) {
         _searchIcon = Icon(Icons.close);
         _searchIcon = GestureDetector(
           child: Icon(Icons.close),
-          onTap: (){
+          onTap: () {
             _searchController.text = "";
             _filtrar();
           },
-          );
+        );
       } else {
         _searchIcon = Icon(Icons.search);
       }
