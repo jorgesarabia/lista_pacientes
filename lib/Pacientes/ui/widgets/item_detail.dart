@@ -15,17 +15,13 @@ class ItemDetail extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        SizedBox(
-          width: 30.0,
-        ),
+        SizedBox(width: 30.0),
         Icon(
           icon,
           size: 35.0,
           color: Colors.lightBlue,
         ),
-        SizedBox(
-          width: 10.0,
-        ),
+        SizedBox(width: 10.0),
         Text(
           detail,
           style: TextStyle(

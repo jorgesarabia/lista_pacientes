@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista_pacientes/Pacientes/model/pacientes_model.dart';
+import 'package:lista_pacientes/Pacientes/ui/screens/new_screen.dart';
 import 'package:lista_pacientes/Pacientes/ui/widgets/item_detail.dart';
 import 'package:lista_pacientes/widgets/colored_button.dart';
 
@@ -15,11 +16,11 @@ class DetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("${pacientesModel.nombre}")),
-      body: detallePaciente(),
+      body: detallePaciente(context),
     );
   }
 
-  Widget detallePaciente() {
+  Widget detallePaciente(BuildContext context) {
     return Column(
       children: <Widget>[
         SizedBox(height: 25.0),
@@ -46,7 +47,7 @@ class DetailScreen extends StatelessWidget {
         SizedBox(height: 35.0),
         ColoredButton(
           title: "Editar",
-          onPressed: _goToEditPage,
+          onPressed: ()=>_goToEditPage(context),
           height: 50.0,
           width: 200.0,
         ),
@@ -54,7 +55,11 @@ class DetailScreen extends StatelessWidget {
     );
   }
 
-  void _goToEditPage(){
-    print("Editar!");
+  void _goToEditPage(BuildContext context){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => NewPacienteScreen()),
+              );
   }
 }
