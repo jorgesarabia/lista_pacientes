@@ -21,6 +21,9 @@ class _PacienteFormState extends State<PacienteForm> {
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _ciController = TextEditingController();
   final TextEditingController _nroLibretaController = TextEditingController();
+  String _title = "Crear";
+  String _messageBox = "Creando Paciente ...";
+  String _messageError = "Error al Crear Paciente ..";
 
   PacientesBloc _pacientesBloc;
 
@@ -31,6 +34,14 @@ class _PacienteFormState extends State<PacienteForm> {
     _nombreController.addListener(_onNombreChanged);
     _ciController.addListener(_onCiChanged);
     _nroLibretaController.addListener(_onNroLibretaChanged);
+    if (widget.pacientesModel != null) {
+      _nombreController.text = widget.pacientesModel.nombre;
+      _ciController.text = widget.pacientesModel.ci;
+      _nroLibretaController.text = widget.pacientesModel.nroLibreta;
+      _title = "Actualizar";
+      _messageBox = "Actualizando Datos ...";
+      _messageError = "Error al Actualizar Datos..";
+    }
   }
 
   @override
@@ -45,7 +56,7 @@ class _PacienteFormState extends State<PacienteForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Error al crear el paciente'),
+                    Text(_messageError),
                     Icon(Icons.error)
                   ],
                 ),
@@ -61,7 +72,7 @@ class _PacienteFormState extends State<PacienteForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Creando Paciente ..."),
+                    Text(_messageBox),
                     CircularProgressIndicator(),
                   ],
                 ),
@@ -129,7 +140,7 @@ class _PacienteFormState extends State<PacienteForm> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 GenericButton(
-                  title: "Crear",
+                  title: _title,
                   onPressed: isButtonEnabled(state) ? _onFormSubmitted : null,
                 ),
               ],
@@ -178,7 +189,8 @@ class _PacienteFormState extends State<PacienteForm> {
 
   void _onFormSubmitted() {
     _pacientesBloc.add(
-      CrearNuevoPaciente(
+      CreateOrUpdatePaciente(
+        id: widget.pacientesModel != null ? widget.pacientesModel.id : null,
         nombre: _nombreController.text,
         nroLibreta: _nroLibretaController.text,
         ci: _ciController.text,

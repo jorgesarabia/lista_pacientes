@@ -44,15 +44,17 @@ class NroLibretaChanged extends PacientesEvent {
   String toString() => 'NroLibretaChanged { nroLibreta :$nroLibreta }';
 }
 
-class CrearNuevoPaciente extends PacientesEvent {
+class CreateOrUpdatePaciente extends PacientesEvent {
   final String nombre;
   final String nroLibreta;
   final String ci;
+  final String id;
 
-  const CrearNuevoPaciente({
+  const CreateOrUpdatePaciente({
     @required this.nombre,
     @required this.nroLibreta,
     @required this.ci,
+    @required this.id,
   });
 
   @override

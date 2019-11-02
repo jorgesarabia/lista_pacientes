@@ -4,18 +4,24 @@ import 'package:lista_pacientes/Pacientes/ui/screens/form_screen.dart';
 import 'package:lista_pacientes/Pacientes/ui/widgets/item_detail.dart';
 import 'package:lista_pacientes/widgets/colored_button.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   final PacientesModel pacientesModel;
 
   DetailScreen({
     Key key,
     @required this.pacientesModel,
   });
+  @override
+  _DetailScreenState createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  
+  PacientesModel pacientesModel;
 
   @override
   Widget build(BuildContext context) {
-    print("Esta es la lista de pacientes que se recibe");
-    print(pacientesModel);
+    pacientesModel = widget.pacientesModel;
     return Scaffold(
       appBar: AppBar(title: Text("${pacientesModel.nombre}")),
       body: detallePaciente(context),
@@ -49,7 +55,7 @@ class DetailScreen extends StatelessWidget {
         SizedBox(height: 35.0),
         ColoredButton(
           title: "Editar",
-          onPressed: ()=>_goToEditPage(context),
+          onPressed: () => _goToEditPage(context),
           height: 50.0,
           width: 200.0,
         ),
@@ -57,11 +63,11 @@ class DetailScreen extends StatelessWidget {
     );
   }
 
-  void _goToEditPage(BuildContext context){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => FormScreen()),
-              );
+  void _goToEditPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (BuildContext context) => FormScreen(pacientesModel)),
+    );
   }
 }

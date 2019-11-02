@@ -91,7 +91,7 @@ class _PacientesListaState extends State<PacientesLista> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => FormScreen()),
+                builder: (BuildContext context) => FormScreen(null)),
           ).then((_) {
             setState(() {
               _findFromSource();
