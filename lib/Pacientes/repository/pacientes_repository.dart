@@ -42,9 +42,10 @@ class PacientesRepository {
     await ref.getDocuments().then((QuerySnapshot querySnapshot) {
       querySnapshot.documents.forEach((f) {
         print(f.data["nombre"]);
+        print(f.documentID);
         list.add(
           PacientesModel(
-            id: f.data["id"],
+            id: f.documentID,
             ci: f.data["ci"],
             nombre: f.data["nombre"],
             nroLibreta: f.data["nroLibreta"],

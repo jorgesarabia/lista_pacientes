@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lista_pacientes/Pacientes/find_bloc/bloc.dart';
 import 'package:lista_pacientes/Pacientes/model/pacientes_model.dart';
 import 'package:lista_pacientes/Pacientes/ui/screens/detail_screen.dart';
-import 'package:lista_pacientes/Pacientes/ui/screens/new_screen.dart';
+import 'package:lista_pacientes/Pacientes/ui/screens/form_screen.dart';
 import 'package:lista_pacientes/Pacientes/ui/widgets/paciente_card.dart';
 import 'package:lista_pacientes/Pacientes/ui/widgets/search_button.dart';
 
@@ -91,7 +91,7 @@ class _PacientesListaState extends State<PacientesLista> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => NewPacienteScreen()),
+                builder: (BuildContext context) => FormScreen()),
           ).then((_) {
             setState(() {
               _findFromSource();

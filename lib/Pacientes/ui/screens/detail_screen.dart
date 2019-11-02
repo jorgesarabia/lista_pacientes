@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista_pacientes/Pacientes/model/pacientes_model.dart';
-import 'package:lista_pacientes/Pacientes/ui/screens/new_screen.dart';
+import 'package:lista_pacientes/Pacientes/ui/screens/form_screen.dart';
 import 'package:lista_pacientes/Pacientes/ui/widgets/item_detail.dart';
 import 'package:lista_pacientes/widgets/colored_button.dart';
 
@@ -14,6 +14,8 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Esta es la lista de pacientes que se recibe");
+    print(pacientesModel);
     return Scaffold(
       appBar: AppBar(title: Text("${pacientesModel.nombre}")),
       body: detallePaciente(context),
@@ -59,7 +61,7 @@ class DetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => NewPacienteScreen()),
+                    builder: (BuildContext context) => FormScreen()),
               );
   }
 }

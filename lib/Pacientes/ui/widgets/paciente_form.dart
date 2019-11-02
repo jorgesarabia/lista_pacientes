@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lista_pacientes/Pacientes/bloc/bloc.dart';
+import 'package:lista_pacientes/Pacientes/model/pacientes_model.dart';
 import 'package:lista_pacientes/widgets/generic_button.dart';
 
 class PacienteForm extends StatefulWidget {
+  final PacientesModel pacientesModel;
+
+  PacienteForm({
+    Key key,
+    this.pacientesModel,
+  });
+
   @override
   _PacienteFormState createState() => _PacienteFormState();
 }
@@ -36,7 +44,10 @@ class _PacienteFormState extends State<PacienteForm> {
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Error al crear el paciente'), Icon(Icons.error)],
+                  children: [
+                    Text('Error al crear el paciente'),
+                    Icon(Icons.error)
+                  ],
                 ),
                 backgroundColor: Colors.red,
               ),
