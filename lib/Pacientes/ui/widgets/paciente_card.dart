@@ -39,13 +39,23 @@ class PacienteCard extends StatelessWidget {
 
     final _pacienteNombre = Container(
       margin: EdgeInsets.only(left: 20.0),
-      child: Text(
-        "${pacientesModel.nombre}",
-        textAlign: TextAlign.left,
-        style: TextStyle(
-          fontFamily: "Lato",
-          fontSize: 17.0,
-        ),
+      child: Row(
+        children: <Widget>[
+          Flexible(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  "${pacientesModel.nombre}",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: "Lato",
+                    fontSize: 17.0,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
 

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:lista_pacientes/Home/ui/screens/home_screen.dart';
 import 'package:lista_pacientes/Login/ui/screens/login_screen.dart';
+import 'package:lista_pacientes/Pacientes/ui/screens/list_screen.dart';
 import 'package:lista_pacientes/User/repository/auth_repository.dart';
 import 'package:lista_pacientes/common/authentication_bloc/bloc.dart';
 import 'package:lista_pacientes/common/simple_bloc_delegate.dart';
@@ -35,16 +36,13 @@ class App extends StatelessWidget {
     return MaterialApp(
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
-          if (state is Uninitialized) {
-            return SplashScreen();
-          }
           if (state is Unauthenticated) {
             return LoginScreen(authRepository: _authRepository);
           }
           if (state is Authenticated) {
-            return HomeScreen();
+            return ListScreen();
           }
-          return CircularProgressIndicator();
+          return SplashScreen();
         },
       ),
     );
