@@ -1,4 +1,6 @@
 # lista_pacientes
+Esta pequeña app sirve para encontrar más rápido la ficha de un paciente.
+Todavía está en progreso.
 
 A new Flutter project.
 
