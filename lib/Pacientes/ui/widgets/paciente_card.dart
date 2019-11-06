@@ -11,65 +11,50 @@ class PacienteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _pacienteLibreta = Container(
-      margin: EdgeInsets.only(left: 20.0),
-      child: Text(
-        "Libreta nro: ${pacientesModel.nroLibreta}",
-        textAlign: TextAlign.left,
-        style: TextStyle(
-          fontFamily: "Lato",
-          fontSize: 13.0,
-          fontWeight: FontWeight.w900,
-        ),
-      ),
-    );
-
-    final _pacienteCI = Container(
-      margin: EdgeInsets.only(left: 20.0),
-      child: Text(
-        "CI: ${pacientesModel.ci}",
-        textAlign: TextAlign.left,
-        style: TextStyle(
-          fontFamily: "Lato",
-          fontSize: 13.0,
-          color: Color(0xFFa3a5a7),
-        ),
-      ),
-    );
-
-    final _pacienteNombre = Container(
-      margin: EdgeInsets.only(left: 20.0),
-      child: Row(
-        children: <Widget>[
-          Flexible(
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "${pacientesModel.nombre}",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: "Lato",
-                    fontSize: 17.0,
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
 
     final userDetails = Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        _pacienteNombre,
-        _pacienteCI,
-        _pacienteLibreta,
+        Flexible(
+          child: Text(
+            "${pacientesModel.nombre}",
+            style: TextStyle(
+              fontFamily: "Lato",
+              fontSize: 17.0,
+            ),
+          ),
+        ),
+        SizedBox(height: 5.0),
+        Flexible(
+          child: Text(
+            "CI: ${pacientesModel.ci}",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontFamily: "Lato",
+              fontSize: 13.0,
+              color: Color(0xFFa3a5a7),
+            ),
+          ),
+        ),
+        SizedBox(height: 1.0),
+        Flexible(
+          child: Text(
+            "Libreta nro: ${pacientesModel.nroLibreta}",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontFamily: "Lato",
+              fontSize: 13.0,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
       ],
     );
 
     final photo = Container(
-      margin: EdgeInsets.only(top: 20.0, left: 20.0),
+      margin: EdgeInsets.only(top: 10.0, left: 10.0, bottom: 10.0),
       width: 80.0,
       height: 80.0,
       decoration: BoxDecoration(
@@ -81,11 +66,19 @@ class PacienteCard extends StatelessWidget {
       ),
     );
 
-    return Row(
-      children: <Widget>[
-        photo,
-        userDetails,
-      ],
+    return Card(
+      elevation: 3.0,
+      child: Row(
+        children: <Widget>[
+          Flexible(
+            child: photo,
+          ),
+          SizedBox(width: 15.0),
+          Flexible(
+            child: userDetails,
+          ),
+        ],
+      ),
     );
   }
 }
