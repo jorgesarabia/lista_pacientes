@@ -63,6 +63,9 @@ class PacientesBloc extends Bloc<PacientesEvent, PacientesState> {
       ));
       yield PacientesState.success();
     } catch (_) {
+      print("===============");
+      print(" Aca existe una falla PacientesState.failure()");
+      print("===============");
       yield PacientesState.failure();
     }
   }

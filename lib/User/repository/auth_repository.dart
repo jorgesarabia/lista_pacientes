@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/User/repository/cloud_firestore_repository.dart';
+import 'package:lista_pacientes/common/singletons.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
   final CloudFirestoreRepository _cloudFire = CloudFirestoreRepository();
+  Singletons _singletons = Singletons();
 
   AuthRepository({FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
@@ -35,10 +37,15 @@ class AuthRepository {
   }
 
   updateUser(FirebaseUser user) async {
-    await _cloudFire.updateUserData(UsersModel(
+    UsersModel userFromFirebase = UsersModel(
       email: user.email,
       uid: user.uid,
-    ));
+    );
+
+    _singletons.setUser(userFromFirebase);
+
+    // Con la implementacion actual, solo actualiza el lastLogin:
+    await _cloudFire.updateUserData(userFromFirebase);
   }
 
 }

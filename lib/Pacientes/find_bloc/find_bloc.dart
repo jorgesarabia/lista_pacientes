@@ -22,6 +22,9 @@ class FindBloc extends Bloc<FindEvent, FindState> {
       List<PacientesModel> lista = await _pacientesRepository.getPacientes();
       yield FindState.success(list: lista);
     } catch (_) {
+      print("===============");
+      print(" Aca existe una falla FindState.failure()");
+      print("===============");
       yield FindState.failure();
     }
   }
