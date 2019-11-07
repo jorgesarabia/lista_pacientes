@@ -50,7 +50,7 @@ class _LoginFormState extends State<LoginForm> {
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Login Failure'), Icon(Icons.error)],
+                  children: [Text('Fallo en el Login'), Icon(Icons.error)],
                 ),
                 backgroundColor: Colors.red,
               ),
