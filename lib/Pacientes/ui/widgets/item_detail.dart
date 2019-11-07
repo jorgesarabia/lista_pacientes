@@ -22,12 +22,14 @@ class ItemDetail extends StatelessWidget {
           color: Colors.lightBlue,
         ),
         SizedBox(width: 10.0),
-        Text(
-          detail,
-          style: TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+        Flexible(
+          child: Text(
+            detail,
+            style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           ),
         ),
       ],

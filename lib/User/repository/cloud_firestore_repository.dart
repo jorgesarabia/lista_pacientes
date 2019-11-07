@@ -9,16 +9,13 @@ class CloudFirestoreRepository {
   final Firestore _db = Firestore.instance;
 
   Future<void> updateUserData(UsersModel user) async {
-    print("Se van a actualizar los datos");
     DocumentReference ref = _db.collection(USERS).document(user.uid);
     await ref.get().then((DocumentSnapshot s) {
       if (s.exists) {
-        print("El dato ya existe, solo se actualiza.");
         ref.updateData({
           "lastSignIn": DateTime.now(),
         });
       } else {
-        print("El dato no existe, se crea.");
         ref.setData({
           "uid": user.uid,
           "nombre": user.nombre,

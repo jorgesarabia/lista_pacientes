@@ -13,18 +13,14 @@ class PacientesRepository {
     UsersModel user = _singletons.getUser();
     DocumentReference ref =
         _db.collection("$PACIENTES-${user.uid}").document(pacientesModel.id);
-    print("Se va crear o actualizar con:");
-    print(pacientesModel.toString());
     await ref.get().then((DocumentSnapshot s) {
       if (s.exists) {
-        print("El dato ya existe, solo se actualiza.");
         return ref.updateData({
           "nombre": pacientesModel.nombre ?? s.data["nombre"],
           "ci": pacientesModel.ci ?? s.data["ci"],
           "nroLibreta": pacientesModel.nroLibreta ?? s.data["nroLibreta"],
         });
       } else {
-        print("El dato no existe, se crea.");
         return ref.setData({
           "nombre": pacientesModel.nombre,
           "ci": pacientesModel.ci,
@@ -53,7 +49,9 @@ class PacientesRepository {
         );
       });
     }).catchError((_) {
+      print("=================");
       print("Hay un error");
+      print("=================");
     });
     return list;
   }
