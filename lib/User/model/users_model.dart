@@ -11,4 +11,15 @@ class UsersModel {
     @required this.email,
     this.nombre,
   });
+
+  @override
+  String toString(){
+    return '''
+    {
+      uid: $uid,
+      email: $email,
+      nombre: $nombre,
+    }
+    ''';
+  }
 }
