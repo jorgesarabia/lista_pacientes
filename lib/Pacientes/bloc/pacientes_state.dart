@@ -80,7 +80,6 @@ class PacientesState {
 
   PacientesState copyWith({
     bool isNameValid,
-    bool isSubmitEnabled,
     bool isSubmitting,
     bool isSuccess,
     bool isCiValid,
