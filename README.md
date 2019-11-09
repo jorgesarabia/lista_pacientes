@@ -10,8 +10,8 @@ También debe configurar [firebase](https://firebase.google.com/docs/flutter/set
 
 
 # ¿Quiere contribuir?
-Para esto hacer un fork y solicitar los Pull Request a la rama development
-Aqui les dejo un To-Do list de algunas cosas que faltan y me podrian contribuir.
+Para esto, hacer un fork y solicitar los Pull Request a la rama development. 
+Les dejo un To-Do list de algunas cosas que faltan y me podrían contribuir.
 
 ## To-Do list
 | Tarea           | Estado | Finalizado |
