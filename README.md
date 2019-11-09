@@ -1,6 +1,16 @@
 # lista_pacientes
-Esta pequeña app sirve para encontrar más rápido la ficha de un paciente.
-Todavía está en progreso.
+Esta pequeña app sirve para buscar la ficha de un paciente en un consultorio. (Todavía en progreso)
+
+# ¿Cómo instalarlo localmente?
+Luego de clonar o bajar el proyecto asegúrese de bajar los paquetes:
+
+flutter pub get
+
+También debe configurar [firebase](https://firebase.google.com/docs/flutter/setup?hl=es).
+
+
+# ¿Quiere contribuir?
+Para esto hacer un fork y solicitar los Pull Request a la rama development
 
 A new Flutter project.
 
