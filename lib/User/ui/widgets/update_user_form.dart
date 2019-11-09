@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lista_pacientes/User/bloc/bloc.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/User/repository/cloud_firestore_repository.dart';
 import 'package:lista_pacientes/User/ui/widgets/update_user_button.dart';
 import 'package:lista_pacientes/common/singletons.dart';
+import 'package:lista_pacientes/widgets/generic_button.dart';
 
 class UpdateUserForm extends StatefulWidget {
   @override
@@ -13,16 +16,30 @@ class _UpdateUserFormState extends State<UpdateUserForm> {
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _rePasswordController = TextEditingController();
-  bool _hasError = false;
-  CloudFirestoreRepository _repository = CloudFirestoreRepository();
+
+  String _title = "Crear";
+  String _messageBox = "Creando Paciente ...";
+  String _messageError = "Error al Crear Paciente ..";
+
   Singletons _singletons = Singletons();
   UsersModel usersModel;
+
+  UserBloc _userBloc;
+
+  bool get isPopulated =>
+      _nombreController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+
+  bool isButtonEnabled(UserState state) {
+    return state.isFormValid && isPopulated && !state.isSubmitting;
+  }
 
   @override
   void initState() {
     super.initState();
+    _userBloc = BlocProvider.of<UserBloc>(context);
     usersModel = _singletons.getUser();
     _nombreController.text = usersModel.nombre;
+    _nombreController.addListener(_onNombreChanged);
     print("======================================================");
     print("User Model: ${usersModel.toString()}");
     print("El nombre del usuario es: ${_nombreController.text}");
@@ -31,64 +48,47 @@ class _UpdateUserFormState extends State<UpdateUserForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(20.0),
-      child: Form(
-        child: ListView(
-          children: <Widget>[
-            TextFormField(
-              controller: _nombreController,
-              decoration: InputDecoration(
-                icon: Icon(Icons.account_balance),
-                labelText: "Nombre",
+    return BlocListener<UserBloc, UserState>(
+      listener: (context, state) {
+        if (state.isFailure) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text(_messageError), Icon(Icons.error)],
+                ),
+                backgroundColor: Colors.red,
               ),
-              autovalidate: _hasError,
-              autocorrect: false,
-              validator: (value) => _validate(value, ""),
-            ),
-            TextFormField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                icon: Icon(Icons.security),
-                labelText: "Password",
+            );
+        }
+        if (state.isSubmitting) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(_messageBox),
+                    CircularProgressIndicator(),
+                  ],
+                ),
               ),
-              autovalidate: _hasError,
-              autocorrect: false,
-              validator: (value) => _validate(value, "pass"),
-            ),
-            TextFormField(
-              controller: _rePasswordController,
-              decoration: InputDecoration(
-                icon: Icon(Icons.security),
-                labelText: "Password de nuevo",
-              ),
-              autovalidate: _hasError,
-              autocorrect: false,
-              validator: (value) => _validate(value, "pass"),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  UpdateUserButton(
-                    onPressed: () {
-                      print("Se evalua el tema");
-                      _validate(_nombreController.text, "");
-                      _validate(_passwordController.text, "pass");
-                      if (!_hasError) {
-                        print("El valor es ${_nombreController.text}");
-                        String uid = usersModel.uid;
-                        String nombre = _nombreController.text;
-                        // _repository.updateUserName(uid, nombre);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+            );
+        }
+        if (state.isSuccess) {
+          Navigator.pop(context);
+        }
+      },
+      child: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          return Padding(
+            padding: EdgeInsets.all(20.0),
+            child: myForm(state),
+          );
+        },
       ),
     );
   }
@@ -101,20 +101,83 @@ class _UpdateUserFormState extends State<UpdateUserForm> {
     super.dispose();
   }
 
-  String _validate(String value, String from) {
-    _hasError = true;
-    if (value.isEmpty) {
-      return "Campo Requerido";
-    }
-    if (from == "pass") {
-      if (_passwordController.text.length < 7) {
-        return "Debe tener más de 6 caracteres";
-      }
-      if (_passwordController.text != _rePasswordController.text) {
-        return "Las contraseñas no coinciden";
-      }
-    }
-    _hasError = false;
-    return null;
+  Widget myForm(state) {
+    return Form(
+      child: ListView(
+        children: <Widget>[
+          TextFormField(
+            controller: _nombreController,
+            decoration: InputDecoration(
+              icon: Icon(Icons.store),
+              labelText: 'Nombre de la Organización',
+            ),
+            autovalidate: true,
+            autocorrect: false,
+            validator: (_) {
+              return !state.isNameValid ? 'Campo Requerido' : null;
+            },
+          ),
+          TextFormField(
+            controller: _passwordController,
+            decoration: InputDecoration(
+              icon: Icon(Icons.lock),
+              labelText: 'Password',
+            ),
+            obscureText: true,
+            autovalidate: true,
+            autocorrect: false,
+            validator: (_) {
+              return !state.isPasswordValid ? 'Password inválido' : null;
+            },
+          ),
+          TextFormField(
+            controller: _rePasswordController,
+            decoration: InputDecoration(
+              icon: Icon(Icons.lock),
+              labelText: 'Password de nuevo',
+            ),
+            obscureText: true,
+            autovalidate: true,
+            autocorrect: false,
+            validator: (_) {
+              return !state.isPasswordValid ? 'Password no coincide' : null;
+            },
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                GenericButton(
+                  title: _title,
+                  onPressed: isButtonEnabled(state) ? _onFormSubmitted : null,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onNombreChanged() {
+    _userBloc.add(
+      NombreChanged(nombre: _nombreController.text),
+    );
+  }
+
+  void _onPasswordChanged() {
+    _userBloc.add(
+      PassChanged(password: _passwordController.text),
+    );
+  }
+
+  void _onFormSubmitted() {
+    _userBloc.add(
+      UpdateUser(
+        nombre: _nombreController.text,
+        password: _passwordController.text,
+      ),
+    );
   }
 }

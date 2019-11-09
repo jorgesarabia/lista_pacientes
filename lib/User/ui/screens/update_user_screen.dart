@@ -12,7 +12,7 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Actualizar nombre"),
+        title: Text("Actualizar Datos"),
       ),
       body: UpdateUserForm(),
     );
