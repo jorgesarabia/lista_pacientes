@@ -2,22 +2,26 @@
 Esta pequeña app sirve para buscar la ficha de un paciente en un consultorio. (Todavía en progreso)
 
 # ¿Cómo instalarlo localmente?
-Luego de clonar o bajar el proyecto asegúrese de bajar los paquetes:
+Luego de clonar o descargar el proyecto asegúrese de bajar los paquetes:
 
-flutter pub get
+`flutter pub get`
 
 También debe configurar [firebase](https://firebase.google.com/docs/flutter/setup?hl=es).
 
 
 # ¿Quiere contribuir?
 Para esto hacer un fork y solicitar los Pull Request a la rama development
+Aqui les dejo un To-Do list de algunas cosas que faltan y me podrian contribuir.
 
-A new Flutter project.
+## To-Do list
+| Tarea           | Estado | Finalizado |
+|----------------|---------------|---------------|
+| Nombre (muchos me ayudan proponiendo nombre en mis redes sociales). | :x: | --------------- |
+| Logo (Si alguien quiere contribuir bienvenido). | :x: | --------------- |
+| Un mejor Splash con animaciones. | :x: | --------------- |
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
-
+# Getting Started With Flutter?
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
