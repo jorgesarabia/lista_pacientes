@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lista_pacientes/User/bloc/bloc.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
-import 'package:lista_pacientes/User/repository/cloud_firestore_repository.dart';
-import 'package:lista_pacientes/User/ui/widgets/update_user_button.dart';
 import 'package:lista_pacientes/common/singletons.dart';
 import 'package:lista_pacientes/widgets/generic_button.dart';
 
