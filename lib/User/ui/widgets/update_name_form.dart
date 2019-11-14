@@ -13,7 +13,7 @@ class UpdateNameForm extends StatefulWidget {
 class _UpdateNameFormState extends State<UpdateNameForm> {
   final TextEditingController _nombreController = TextEditingController();
 
-  String _title = "Crear";
+  String _title = "Actualizar";
   String _messageBox = "Creando Paciente ...";
   String _messageError = "Error al Crear Paciente ..";
 
@@ -26,7 +26,6 @@ class _UpdateNameFormState extends State<UpdateNameForm> {
 
   @override
   void initState() {
-    print("98");
     super.initState();
     _userBloc = BlocProvider.of<UserBloc>(context);
     usersModel = _singletons.getUser();
@@ -78,7 +77,9 @@ class _UpdateNameFormState extends State<UpdateNameForm> {
         builder: (context, state) {
           return Padding(
             padding: EdgeInsets.all(20.0),
-            child: myForm(state),
+            child: Material(
+              child: myForm(state),
+            ),
           );
         },
       ),

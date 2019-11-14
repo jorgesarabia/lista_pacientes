@@ -24,16 +24,9 @@ class AuthRepository {
     ]);
   }
 
-  Future<bool> isSignedIn() async {
-    final currentUser = await _firebaseAuth.currentUser();
-    updateUser(currentUser);
-    return currentUser != null;
-  }
-
-  Future<String> getUser() async {
-    var user = await _firebaseAuth.currentUser();
-    updateUser(user);
-    return user.email;
+  Future<FirebaseUser> getUser() async {
+    final user = await _firebaseAuth.currentUser();
+    return user;
   }
 
   updateUser(FirebaseUser user) async {
@@ -41,10 +34,6 @@ class AuthRepository {
       email: user.email,
       uid: user.uid,
     );
-
-    _singletons.setUser(userFromFirebase);
-
-    // Con la implementacion actual, solo actualiza el lastLogin:
     await _cloudFire.updateUserData(userFromFirebase);
   }
 

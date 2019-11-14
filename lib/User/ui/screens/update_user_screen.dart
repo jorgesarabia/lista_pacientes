@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lista_pacientes/User/bloc/bloc.dart';
+import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/User/ui/widgets/update_name_form.dart';
+import 'package:lista_pacientes/common/singletons.dart';
 import 'package:lista_pacientes/widgets/my_divider.dart';
 
 class UpdateUserScreen extends StatefulWidget {
@@ -12,6 +14,17 @@ class UpdateUserScreen extends StatefulWidget {
 
 class _UpdateUserScreenState extends State<UpdateUserScreen> {
   double screenWidth;
+  final Singletons _singletons = Singletons();
+  UsersModel usersModel;
+
+  @override
+  void initState() {
+    super.initState();
+    usersModel = _singletons.getUser();
+    print("======================================================");
+    print("User Model: ${usersModel.toString()}");
+    print("======================================================");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +59,9 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
               MaterialPageRoute(
                 builder: (BuildContext context) => BlocProvider<UserBloc>(
                   builder: (context) => UserBloc(),
-                  child: UpdateNameForm(),
+                  child: Scaffold(
+                    appBar: AppBar(title: Text("Actualizar Nombre"),),
+                    body: UpdateNameForm(),),
                 ),
               ),
             );
@@ -61,10 +76,11 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                   children: <Widget>[
                     Flexible(
                       child: Text(
-                        "Un nombre de clinica exageradamente largo, tambien innecesariamente largo",
+                        "${usersModel.nombre}",
                         style: TextStyle(
                           fontFamily: "Lato",
                           fontSize: 17.0,
+                          color: Colors.black38,
                         ),
                       ),
                     ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lista_pacientes/User/repository/auth_repository.dart';
 import 'package:lista_pacientes/common/authentication_bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -27,10 +28,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     try {
-      final isSignedIn = await _authRepository.isSignedIn();
-      if (isSignedIn) {
-        final name = await _authRepository.getUser();
-        yield Authenticated(name);
+      final FirebaseUser actualUser = await _authRepository.getUser();
+      if (actualUser != null) {
+        _authRepository.updateUser(actualUser);
+        yield Authenticated(actualUser.email);
       } else {
         yield Unauthenticated();
       }
@@ -40,7 +41,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Stream<AuthenticationState> _mapLoggedInToState() async* {
-    yield Authenticated(await _authRepository.getUser());
+    final FirebaseUser actualUser = await _authRepository.getUser();
+    yield Authenticated(actualUser.email);
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {

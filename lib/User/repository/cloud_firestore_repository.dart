@@ -15,6 +15,7 @@ class CloudFirestoreRepository {
         ref.updateData({
           "lastSignIn": DateTime.now(),
         });
+        user.nombre = s.data["nombre"];
       } else {
         ref.setData({
           "uid": user.uid,
@@ -23,12 +24,15 @@ class CloudFirestoreRepository {
           "lastSignIn": DateTime.now(),
         }, merge: true);
       }
-      _updateSingleton(s);
+      _updateSingleton(UsersModel(
+        uid: user.uid,
+        nombre: user.nombre,
+        email: user.email
+      ));
     });
   }
 
   Future<void> updateUserNames(String nombre) async {
-    print("Se van a actualizar los datos");
     UsersModel usersModel = _singletons.getUser();
     DocumentReference ref = _db.collection(USERS).document(usersModel.uid);
     await ref.get().then((DocumentSnapshot s) {
@@ -37,8 +41,13 @@ class CloudFirestoreRepository {
         ref.updateData({
           "nombre": nombre,
           "lastSignIn": DateTime.now(),
+        }).then((_) {
+          _updateSingleton(UsersModel(
+            email: s.data["email"],
+            nombre: nombre,
+            uid: s.data["uid"],
+          ));
         });
-        _updateSingleton(s);
       }
     });
   }
@@ -48,19 +57,17 @@ class CloudFirestoreRepository {
     await ref.get().then((DocumentSnapshot s) {
       if (s.exists) {
         print(s.data);
-        _updateSingleton(s);
+        _updateSingleton(UsersModel(
+          email: s.data["email"],
+          nombre: s.data["nombre"],
+          uid: s.data["uid"],
+        ));
       }
     });
   }
 
-  void _updateSingleton(DocumentSnapshot s) {
+  void _updateSingleton(UsersModel userModel) {
     print("Actualizamos el singleton");
-    UsersModel userFromFirebase = UsersModel(
-      email: s.data["email"],
-      nombre: s.data["nombre"],
-      uid: s.data["uid"],
-    );
-
-    _singletons.setUser(userFromFirebase);
+    _singletons.setUser(userModel);
   }
 }
