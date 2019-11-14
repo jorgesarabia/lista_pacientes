@@ -27,9 +27,10 @@ class CloudFirestoreRepository {
     });
   }
 
-  Future<void> updateUserName(String uid, String nombre) async {
+  Future<void> updateUserNames(String nombre) async {
     print("Se van a actualizar los datos");
-    DocumentReference ref = _db.collection(USERS).document(uid);
+    UsersModel usersModel = _singletons.getUser();
+    DocumentReference ref = _db.collection(USERS).document(usersModel.uid);
     await ref.get().then((DocumentSnapshot s) {
       if (s.exists) {
         print("Se actualiza el nombre.");

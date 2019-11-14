@@ -5,13 +5,12 @@ import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/common/singletons.dart';
 import 'package:lista_pacientes/widgets/generic_button.dart';
 
-class UpdateUserForm extends StatefulWidget {
+class UpdatePassForm extends StatefulWidget {
   @override
-  _UpdateUserFormState createState() => _UpdateUserFormState();
+  _UpdatePassFormState createState() => _UpdatePassFormState();
 }
 
-class _UpdateUserFormState extends State<UpdateUserForm> {
-  final TextEditingController _nombreController = TextEditingController();
+class _UpdatePassFormState extends State<UpdatePassForm> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _rePasswordController = TextEditingController();
 
@@ -24,23 +23,16 @@ class _UpdateUserFormState extends State<UpdateUserForm> {
 
   UserBloc _userBloc;
 
-  bool get isPopulated =>
-      _nombreController.text.isNotEmpty && _passwordController.text.isNotEmpty;
-
-  bool isButtonEnabled(UserState state) {
-    return state.isFormValid && isPopulated && !state.isSubmitting;
-  }
+  bool get _isButtonEnabled => _passwordController.text.isNotEmpty;
 
   @override
   void initState() {
     super.initState();
     _userBloc = BlocProvider.of<UserBloc>(context);
     usersModel = _singletons.getUser();
-    _nombreController.text = usersModel.nombre;
-    _nombreController.addListener(_onNombreChanged);
+    _passwordController.addListener(_onPasswordChanged);
     print("======================================================");
     print("User Model: ${usersModel.toString()}");
-    print("El nombre del usuario es: ${_nombreController.text}");
     print("======================================================");
   }
 
@@ -93,7 +85,6 @@ class _UpdateUserFormState extends State<UpdateUserForm> {
 
   @override
   void dispose() {
-    _nombreController.dispose();
     _passwordController.dispose();
     _rePasswordController.dispose();
     super.dispose();
@@ -103,18 +94,6 @@ class _UpdateUserFormState extends State<UpdateUserForm> {
     return Form(
       child: ListView(
         children: <Widget>[
-          TextFormField(
-            controller: _nombreController,
-            decoration: InputDecoration(
-              icon: Icon(Icons.store),
-              labelText: 'Nombre de la Organización',
-            ),
-            autovalidate: true,
-            autocorrect: false,
-            validator: (_) {
-              return !state.isNameValid ? 'Campo Requerido' : null;
-            },
-          ),
           TextFormField(
             controller: _passwordController,
             decoration: InputDecoration(
@@ -148,19 +127,13 @@ class _UpdateUserFormState extends State<UpdateUserForm> {
               children: <Widget>[
                 GenericButton(
                   title: _title,
-                  onPressed: isButtonEnabled(state) ? _onFormSubmitted : null,
+                  onPressed: _isButtonEnabled ? _onFormSubmitted : null,
                 ),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  void _onNombreChanged() {
-    _userBloc.add(
-      NombreChanged(nombre: _nombreController.text),
     );
   }
 
@@ -171,11 +144,7 @@ class _UpdateUserFormState extends State<UpdateUserForm> {
   }
 
   void _onFormSubmitted() {
-    _userBloc.add(
-      UpdateUser(
-        nombre: _nombreController.text,
-        password: _passwordController.text,
-      ),
-    );
+    print("Se manda al server");
   }
 }
+

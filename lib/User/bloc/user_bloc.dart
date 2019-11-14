@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:lista_pacientes/User/repository/cloud_firestore_repository.dart';
 import 'package:lista_pacientes/common/validators.dart';
 import './bloc.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   Validators validators = Validators();
+  CloudFirestoreRepository repository = CloudFirestoreRepository();
 
   @override
   UserState get initialState => UserState.empty();
@@ -17,10 +19,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapPassChangedToState(event.password);
     } else if (event is RePassChanged) {
       yield* _mapRePassChangedToState(event.password);
-    } else if (event is UpdateUser) {
-      yield* _mapUpdateUserToState(
+    } else if (event is UpdateUserName) {
+      yield* _mapUpdateUserNameToState(
         nombre: event.nombre,
-        password: event.password,
       );
     }
   }
@@ -44,12 +45,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     );
   }
 
-  Stream<UserState> _mapUpdateUserToState({
+  Stream<UserState> _mapUpdateUserNameToState({
     String nombre,
-    String password,
   }) async* {
     yield UserState.loading();
     try {
+      await repository.updateUserNames(nombre);
       yield UserState.success();
     } catch (_) {
       print("===============");

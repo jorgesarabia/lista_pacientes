@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lista_pacientes/User/bloc/bloc.dart';
-import 'package:lista_pacientes/User/ui/widgets/update_user_form.dart';
+import 'package:lista_pacientes/User/ui/widgets/update_name_form.dart';
 import 'package:lista_pacientes/widgets/my_divider.dart';
 
 class UpdateUserScreen extends StatefulWidget {
@@ -41,7 +41,15 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
         SizedBox(height: 15.0),
         GestureDetector(
           onTap: () {
-            print("Este tambien se edita");
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => BlocProvider<UserBloc>(
+                  builder: (context) => UserBloc(),
+                  child: UpdateNameForm(),
+                ),
+              ),
+            );
           },
           child: Card(
             elevation: 5,

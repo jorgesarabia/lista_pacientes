@@ -41,24 +41,21 @@ class RePassChanged extends UserEvent {
   String toString() => 'RePassChanged { password(retype) :$password }';
 }
 
-class UpdateUser extends UserEvent {
+class UpdateUserName extends UserEvent {
   final String nombre;
-  final String password;
 
-  const UpdateUser({
+  const UpdateUserName({
     @required this.nombre,
-    @required this.password,
   });
 
   @override
-  List<Object> get props => [nombre, password];
+  List<Object> get props => [nombre];
 
   @override
   String toString() {
     return '''
-    ActualizarUser { 
+    ActualizarUserName { 
       nombre: $nombre, 
-      pass: $password,
     }''';
   }
 }
