@@ -15,13 +15,20 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> mapEventToState(UserEvent event) async* {
     if (event is NombreChanged) {
       yield* _mapNombreChangedToState(event.nombre);
-    } else if (event is PassChanged) {
-      yield* _mapPassChangedToState(event.password);
-    } else if (event is RePassChanged) {
-      yield* _mapRePassChangedToState(event.password);
+    } else if (event is ActualPassChanged) {
+      yield* _mapActualPassChangedToState(event.password);
+    } else if (event is NewPassChanged) {
+      yield* _mapNewPassChangedToState(event.password);
+    } else if (event is RetypeNewPassChanged) {
+      yield* _mapRetypeNewPassChangedToState(event.password);
     } else if (event is UpdateUserName) {
       yield* _mapUpdateUserNameToState(
         nombre: event.nombre,
+      );
+    } else if (event is UpdatePassword) {
+      yield* _mapUpdatePasswordToState(
+        actualPassword: event.actualPassword,
+        newPassword: event.newPassword,
       );
     }
   }
@@ -32,16 +39,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     );
   }
 
-  Stream<UserState> _mapPassChangedToState(String password) async* {
+  Stream<UserState> _mapActualPassChangedToState(String password) async* {
+    yield state.update(isActualPassValid: true, password: password);
+  }
+
+  Stream<UserState> _mapNewPassChangedToState(String password) async* {
     yield state.update(
-      isPassValid: password.isNotEmpty,
-      password: password
+      isNewPassValid: password.length > 6,
     );
   }
 
-  Stream<UserState> _mapRePassChangedToState(String password) async* {
+  Stream<UserState> _mapRetypeNewPassChangedToState(String password) async* {
     yield state.update(
-      isPassValid: password.isNotEmpty && state.password == password,
+      isRetypeNewPassValid: password.length > 6,
     );
   }
 
@@ -55,6 +65,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } catch (_) {
       print("===============");
       print(" Aca existe una falla UserState.failure()");
+      print("===============");
+      yield UserState.failure();
+    }
+  }
+
+  Stream<UserState> _mapUpdatePasswordToState({
+    String actualPassword,
+    String newPassword,
+  }) async* {
+    yield UserState.loading();
+    try {
+      await repository.updatePassword(actualPassword,newPassword);
+      yield UserState.success();
+    } catch (_) {
+      print("===============");
+      print("No reseteó el password");
       print("===============");
       yield UserState.failure();
     }

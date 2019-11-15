@@ -11,26 +11,36 @@ class UpdatePassForm extends StatefulWidget {
 }
 
 class _UpdatePassFormState extends State<UpdatePassForm> {
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _rePasswordController = TextEditingController();
+  final TextEditingController _passwordActual = TextEditingController();
+  final TextEditingController _passwordNuevo = TextEditingController();
+  final TextEditingController _reingresarPasswordNuevo =
+      TextEditingController();
 
-  String _title = "Crear";
-  String _messageBox = "Creando Paciente ...";
-  String _messageError = "Error al Crear Paciente ..";
+  String _title = "Actualizar";
+  String _messageBox = "Actualizando Password...";
+  String _messageError = "Error al Actualizar Password...";
 
   Singletons _singletons = Singletons();
   UsersModel usersModel;
 
   UserBloc _userBloc;
 
-  bool get _isButtonEnabled => _passwordController.text.isNotEmpty;
+  bool _isButtonEnabled(UserState state) {
+    print(state.toString());
+    return state.isActualPassValid &&
+        state.isNewPassValid && _passwordActual.text.isNotEmpty &&
+        _reingresarPasswordNuevo.text.isNotEmpty &&
+        _reingresarPasswordNuevo.text == _passwordNuevo.text;
+  }
 
   @override
   void initState() {
     super.initState();
     _userBloc = BlocProvider.of<UserBloc>(context);
     usersModel = _singletons.getUser();
-    _passwordController.addListener(_onPasswordChanged);
+    _passwordActual.addListener(_onActualPasswordChanged);
+    _passwordNuevo.addListener(_onNewPasswordChanged);
+    _reingresarPasswordNuevo.addListener(_onRetypeNewPasswordChanged);
     print("======================================================");
     print("User Model: ${usersModel.toString()}");
     print("======================================================");
@@ -76,7 +86,7 @@ class _UpdatePassFormState extends State<UpdatePassForm> {
         builder: (context, state) {
           return Padding(
             padding: EdgeInsets.all(20.0),
-            child: myForm(state),
+            child: Material(child: myForm(state)),
           );
         },
       ),
@@ -85,39 +95,61 @@ class _UpdatePassFormState extends State<UpdatePassForm> {
 
   @override
   void dispose() {
-    _passwordController.dispose();
-    _rePasswordController.dispose();
+    _passwordActual.dispose();
+    _passwordNuevo.dispose();
+    _reingresarPasswordNuevo.dispose();
     super.dispose();
   }
 
-  Widget myForm(state) {
+  Widget myForm(UserState state) {
     return Form(
       child: ListView(
         children: <Widget>[
           TextFormField(
-            controller: _passwordController,
+            controller: _passwordActual,
             decoration: InputDecoration(
               icon: Icon(Icons.lock),
-              labelText: 'Password',
+              labelText: 'Password Actual',
             ),
             obscureText: true,
             autovalidate: true,
             autocorrect: false,
             validator: (_) {
-              return !state.isPasswordValid ? 'Password inválido' : null;
+              return !state.isActualPassValid
+                  ? 'Debe tener más de 6 caracteres'
+                  : null;
             },
           ),
           TextFormField(
-            controller: _rePasswordController,
+            controller: _passwordNuevo,
             decoration: InputDecoration(
               icon: Icon(Icons.lock),
-              labelText: 'Password de nuevo',
+              labelText: 'Password Nuevo',
             ),
             obscureText: true,
             autovalidate: true,
             autocorrect: false,
-            validator: (_) {
-              return !state.isPasswordValid ? 'Password no coincide' : null;
+            validator: (value) {
+              String message = "";
+              if (!state.isNewPassValid) {
+                message += "Debe tener más de 6 caracteres ";
+              }
+              return message.length > 1 ? message : null;
+            },
+          ),
+          TextFormField(
+            controller: _reingresarPasswordNuevo,
+            decoration: InputDecoration(
+              icon: Icon(Icons.lock),
+              labelText: 'Password Nuevo (reingresar)',
+            ),
+            obscureText: true,
+            autovalidate: true,
+            autocorrect: false,
+            validator: (value) {
+              return value != _passwordNuevo.text
+                  ? "Passwords no coinciden"
+                  : null;
             },
           ),
           Padding(
@@ -127,7 +159,7 @@ class _UpdatePassFormState extends State<UpdatePassForm> {
               children: <Widget>[
                 GenericButton(
                   title: _title,
-                  onPressed: _isButtonEnabled ? _onFormSubmitted : null,
+                  onPressed: _isButtonEnabled(state) ? _onFormSubmitted : null,
                 ),
               ],
             ),
@@ -137,14 +169,31 @@ class _UpdatePassFormState extends State<UpdatePassForm> {
     );
   }
 
-  void _onPasswordChanged() {
+  void _onActualPasswordChanged() {
     _userBloc.add(
-      PassChanged(password: _passwordController.text),
+      ActualPassChanged(password: _passwordActual.text),
+    );
+  }
+
+  void _onNewPasswordChanged() {
+    _userBloc.add(
+      NewPassChanged(password: _passwordNuevo.text),
+    );
+  }
+
+  void _onRetypeNewPasswordChanged() {
+    _userBloc.add(
+      RetypeNewPassChanged(password: _reingresarPasswordNuevo.text),
     );
   }
 
   void _onFormSubmitted() {
     print("Se manda al server");
+    _userBloc.add(
+      UpdatePassword(
+        actualPassword: _passwordActual.text,
+        newPassword: _passwordNuevo.text,
+      ),
+    );
   }
 }
-

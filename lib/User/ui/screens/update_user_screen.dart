@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lista_pacientes/User/bloc/bloc.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/User/ui/widgets/update_name_form.dart';
+import 'package:lista_pacientes/User/ui/widgets/update_pass_form.dart';
 import 'package:lista_pacientes/common/singletons.dart';
 import 'package:lista_pacientes/widgets/my_divider.dart';
 
@@ -60,8 +61,11 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                 builder: (BuildContext context) => BlocProvider<UserBloc>(
                   builder: (context) => UserBloc(),
                   child: Scaffold(
-                    appBar: AppBar(title: Text("Actualizar Nombre"),),
-                    body: UpdateNameForm(),),
+                    appBar: AppBar(
+                      title: Text("Actualizar Nombre"),
+                    ),
+                    body: UpdateNameForm(),
+                  ),
                 ),
               ),
             );
@@ -91,11 +95,24 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
           ),
         ),
         SizedBox(height: 25.0),
-        MyDivider(dividerTitle: "Editar otros atributos"),
+        MyDivider(dividerTitle: "Editar Password"),
         SizedBox(height: 15.0),
         GestureDetector(
           onTap: () {
-            print("Se va editar");
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => BlocProvider<UserBloc>(
+                  builder: (context) => UserBloc(),
+                  child: Scaffold(
+                    appBar: AppBar(
+                      title: Text("Cambiar Password"),
+                    ),
+                    body: UpdatePassForm(),
+                  ),
+                ),
+              ),
+            );
           },
           child: Card(
             elevation: 5,
@@ -107,7 +124,7 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                   children: <Widget>[
                     Flexible(
                       child: Text(
-                        "Editar Password",
+                        "**********",
                         style: TextStyle(
                           fontFamily: "Lato",
                           fontSize: 17.0,

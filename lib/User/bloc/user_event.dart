@@ -17,28 +17,40 @@ class NombreChanged extends UserEvent {
   String toString() => 'NombreChanged { nombre :$nombre }';
 }
 
-class PassChanged extends UserEvent {
+class ActualPassChanged extends UserEvent {
   final String password;
 
-  const PassChanged({@required this.password});
+  const ActualPassChanged({@required this.password});
 
   @override
   List<Object> get props => [password];
 
   @override
-  String toString() => 'PassChanged { password:$password }';
+  String toString() => 'ActualPassChanged { password:$password }';
 }
 
-class RePassChanged extends UserEvent {
+class NewPassChanged extends UserEvent {
   final String password;
 
-  const RePassChanged({@required this.password});
+  const NewPassChanged({@required this.password});
 
   @override
   List<Object> get props => [password];
 
   @override
-  String toString() => 'RePassChanged { password(retype) :$password }';
+  String toString() => 'NewPassChanged { password(new) :$password }';
+}
+
+class RetypeNewPassChanged extends UserEvent {
+  final String password;
+
+  const RetypeNewPassChanged({@required this.password});
+
+  @override
+  List<Object> get props => [password];
+
+  @override
+  String toString() => 'RetypeNewPassChanged { password(retype) :$password }';
 }
 
 class UpdateUserName extends UserEvent {
@@ -56,6 +68,28 @@ class UpdateUserName extends UserEvent {
     return '''
     ActualizarUserName { 
       nombre: $nombre, 
+    }''';
+  }
+}
+
+class UpdatePassword extends UserEvent {
+  final String actualPassword;
+  final String newPassword;
+
+  const UpdatePassword({
+    @required this.actualPassword,
+    @required this.newPassword,
+  });
+
+  @override
+  List<Object> get props => [actualPassword, newPassword];
+
+  @override
+  String toString() {
+    return '''
+    ActualizarPassword { 
+      actual: $actualPassword, 
+      nuevo: $newPassword, 
     }''';
   }
 }

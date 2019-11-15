@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/common/singletons.dart';
 
@@ -7,6 +8,35 @@ class CloudFirestoreRepository {
   Singletons _singletons = Singletons();
 
   final Firestore _db = Firestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> updatePassword(String actualPassword, String newPassword) async {
+    UsersModel usersModel = _singletons.getUser();
+    print("======================");
+    print("Antes de cambiar el password se reautentica");
+    print("======================");
+    FirebaseUser user = await _auth
+        .signInWithEmailAndPassword(
+      email: usersModel.email,
+      password: actualPassword,
+    )
+        .catchError((error) {
+      print("=============");
+      print("Usuario No Autenticado");
+      print(error.toString());
+      _auth.currentUser().then((FirebaseUser actual) {
+        print("=============");
+        print("El usuario actual es: ${actual.toString()}");
+        print("=============");
+      });
+    });
+    print("======================");
+    print("Usuario Autenticado");
+    print("======================");
+    await user.updatePassword(newPassword).catchError((onError) {
+      print(onError.toString());
+    });
+  }
 
   Future<void> updateUserData(UsersModel user) async {
     DocumentReference ref = _db.collection(USERS).document(user.uid);
@@ -27,7 +57,7 @@ class CloudFirestoreRepository {
       _updateSingleton(UsersModel(
         uid: user.uid,
         nombre: user.nombre,
-        email: user.email
+        email: user.email,
       ));
     });
   }

@@ -30,7 +30,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     try {
       final FirebaseUser actualUser = await _authRepository.getUser();
       if (actualUser != null) {
-        _authRepository.updateUser(actualUser);
+        await _authRepository.updateUser(actualUser);
         yield Authenticated(actualUser.email);
       } else {
         yield Unauthenticated();

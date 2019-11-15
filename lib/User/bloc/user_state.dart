@@ -2,19 +2,19 @@ import 'package:meta/meta.dart';
 
 class UserState {
   final bool isNameValid;
-  final bool isPassValid;
+  final bool isActualPassValid;
+  final bool isNewPassValid;
+  final bool isRetypeNewPassValid;
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
   final String password;
 
-  bool isFormValid(String rePass){
-    return (this.password == rePass) && isNameValid;
-  }
-
   UserState({
     @required this.isNameValid,
-    @required this.isPassValid,
+    @required this.isActualPassValid,
+    @required this.isNewPassValid,
+    @required this.isRetypeNewPassValid,
     @required this.isSubmitting,
     @required this.isSuccess,
     @required this.isFailure,
@@ -24,7 +24,9 @@ class UserState {
   factory UserState.empty() {
     return UserState(
       isNameValid: true,
-      isPassValid: true,
+      isActualPassValid: true,
+      isNewPassValid: true,
+      isRetypeNewPassValid: true,
       isSubmitting: false,
       isSuccess: false,
       isFailure: false,
@@ -35,7 +37,9 @@ class UserState {
   factory UserState.loading() {
     return UserState(
       isNameValid: true,
-      isPassValid: true,
+      isActualPassValid: true,
+      isNewPassValid: true,
+      isRetypeNewPassValid: true,
       isSubmitting: true,
       isSuccess: false,
       isFailure: false,
@@ -46,7 +50,9 @@ class UserState {
   factory UserState.failure() {
     return UserState(
       isNameValid: true,
-      isPassValid: true,
+      isActualPassValid: true,
+      isNewPassValid: true,
+      isRetypeNewPassValid: true,
       isSubmitting: false,
       isSuccess: false,
       isFailure: true,
@@ -57,7 +63,9 @@ class UserState {
   factory UserState.success() {
     return UserState(
       isNameValid: true,
-      isPassValid: true,
+      isActualPassValid: true,
+      isNewPassValid: true,
+      isRetypeNewPassValid: true,
       isSubmitting: false,
       isSuccess: true,
       isFailure: false,
@@ -67,12 +75,16 @@ class UserState {
 
   UserState update({
     bool isNameValid,
-    bool isPassValid,
+    bool isActualPassValid,
+    bool isNewPassValid,
+    bool isRetypeNewPassValid,
     String password,
   }) {
     return copyWith(
       isNameValid: isNameValid,
-      isPassValid: isPassValid,
+      isActualPassValid: isActualPassValid,
+      isNewPassValid: isNewPassValid,
+      isRetypeNewPassValid: isRetypeNewPassValid,
       password: password,
       isSubmitting: false,
       isSuccess: false,
@@ -82,7 +94,9 @@ class UserState {
 
   UserState copyWith({
     bool isNameValid,
-    bool isPassValid,
+    bool isActualPassValid,
+    bool isNewPassValid,
+    bool isRetypeNewPassValid,
     bool isSubmitting,
     bool isSuccess,
     bool isFailure,
@@ -90,7 +104,9 @@ class UserState {
   }) {
     return UserState(
       isNameValid: isNameValid ?? this.isNameValid,
-      isPassValid: isPassValid ?? this.isPassValid,
+      isActualPassValid: isActualPassValid ?? this.isActualPassValid,
+      isNewPassValid: isNewPassValid ?? this.isNewPassValid,
+      isRetypeNewPassValid: isRetypeNewPassValid ?? this.isRetypeNewPassValid,
       password: password ?? this.password,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       isSuccess: isSuccess ?? this.isSuccess,

@@ -33,6 +33,7 @@ class PacientesRepository {
 
   Future<List<PacientesModel>> getPacientes() async {
     UsersModel user = _singletons.getUser();
+    print("El usuario actual es ${user.toString()}");
     CollectionReference ref = _db.collection("$PACIENTES-${user.uid}");
     List<PacientesModel> list = [];
     await ref.getDocuments().then((QuerySnapshot querySnapshot) {
