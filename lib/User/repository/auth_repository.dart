@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/User/repository/cloud_firestore_repository.dart';
-import 'package:lista_pacientes/common/singletons.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
@@ -43,6 +42,7 @@ class AuthRepository {
 
   Future<FirebaseUser> getUser() async {
     final user = await _firebaseAuth.currentUser();
+    await updateUser(user);
     return user;
   }
 

@@ -4,12 +4,14 @@ class UsersModel {
   final String uid;
   final String email;
   String nombre;
+  int limite;
 
   UsersModel({
     Key key,
     @required this.uid,
     @required this.email,
     this.nombre,
+    this.limite
   });
 
   @override
@@ -19,6 +21,7 @@ class UsersModel {
       uid: $uid,
       email: $email,
       nombre: $nombre,
+      limite: $limite,
     }
     ''';
   }

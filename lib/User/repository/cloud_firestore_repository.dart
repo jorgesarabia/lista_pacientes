@@ -44,11 +44,13 @@ class CloudFirestoreRepository {
           "lastSignIn": DateTime.now(),
         });
         user.nombre = s.data["nombre"];
+        user.limite = s.data["limite"];
       } else {
         ref.setData({
           "uid": user.uid,
           "nombre": user.nombre,
           "email": user.email,
+          "limite": 5,
           "lastSignIn": DateTime.now(),
         }, merge: true);
       }
@@ -56,6 +58,7 @@ class CloudFirestoreRepository {
         uid: user.uid,
         nombre: user.nombre,
         email: user.email,
+        limite: user.limite,
       ));
     });
   }
@@ -74,6 +77,7 @@ class CloudFirestoreRepository {
             email: s.data["email"],
             nombre: nombre,
             uid: s.data["uid"],
+            limite: s.data["limite"],
           ));
         });
       }
@@ -89,6 +93,7 @@ class CloudFirestoreRepository {
           email: s.data["email"],
           nombre: s.data["nombre"],
           uid: s.data["uid"],
+          limite: s.data["limite"],
         ));
       }
     });
