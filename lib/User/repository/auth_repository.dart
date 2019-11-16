@@ -8,7 +8,6 @@ class AuthRepository {
   final FirebaseAuth _firebaseAuth;
   final CloudFirestoreRepository _cloudFire = CloudFirestoreRepository();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  Singletons _singletons = Singletons();
 
   AuthRepository({FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
@@ -21,7 +20,7 @@ class AuthRepository {
   }
 
   Future<FirebaseUser> signInWithGoogle() async {
-    await _googleSignIn.signOut();
+    await _googleSignIn.signOut();//Por un errror de que se queda guardado
     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
     GoogleSignInAuthentication gSA = await googleSignInAccount.authentication;
 
