@@ -22,9 +22,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } else if (event is RetypeNewPassChanged) {
       yield* _mapRetypeNewPassChangedToState(event.password);
     } else if (event is UpdateUserName) {
-      yield* _mapUpdateUserNameToState(
-        nombre: event.nombre,
-      );
+      yield* _mapUpdateUserNameToState(nombre: event.nombre);
     } else if (event is UpdatePassword) {
       yield* _mapUpdatePasswordToState(
         actualPassword: event.actualPassword,
@@ -34,9 +32,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   Stream<UserState> _mapNombreChangedToState(String nombre) async* {
-    yield state.update(
-      isNameValid: nombre.isNotEmpty,
-    );
+    yield state.update(isNameValid: nombre.isNotEmpty);
   }
 
   Stream<UserState> _mapActualPassChangedToState(String password) async* {
@@ -44,15 +40,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   Stream<UserState> _mapNewPassChangedToState(String password) async* {
-    yield state.update(
-      isNewPassValid: password.length > 6,
-    );
+    yield state.update(isNewPassValid: password.length > 6);
   }
 
   Stream<UserState> _mapRetypeNewPassChangedToState(String password) async* {
-    yield state.update(
-      isRetypeNewPassValid: password.length > 6,
-    );
+    yield state.update(isRetypeNewPassValid: password.length > 6);
   }
 
   Stream<UserState> _mapUpdateUserNameToState({
@@ -76,13 +68,20 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }) async* {
     yield UserState.loading();
     try {
-      await repository.updatePassword(actualPassword,newPassword);
+      await repository.updatePassword(actualPassword, newPassword);
       yield UserState.success();
-    } catch (_) {
+    } catch (error) {
+      String message;
       print("===============");
-      print("No reseteó el password");
+      print("No reseteó el password: $error");
       print("===============");
-      yield UserState.failure();
+      switch (error.code) {
+        case "ERROR_WRONG_PASSWORD":
+          message = "Password Actual Incorrecto";
+          yield UserState.failure(errorMessage: message);
+          break;
+        default:
+      }
     }
   }
 }

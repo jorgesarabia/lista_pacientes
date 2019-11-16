@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/common/singletons.dart';
 
@@ -19,19 +20,16 @@ class CloudFirestoreRepository {
         .signInWithEmailAndPassword(
       email: usersModel.email,
       password: actualPassword,
-    )
-        .catchError((error) {
+    ).catchError((error) {
       print("=============");
       print("Usuario No Autenticado");
       print(error.toString());
-      _auth.currentUser().then((FirebaseUser actual) {
-        print("=============");
-        print("El usuario actual es: ${actual.toString()}");
-        print("=============");
-      });
+      print(error.code);
+      print("=============");
+      throw error;
     });
     print("======================");
-    print("Usuario Autenticado");
+    print("Se quiere cambiar el password");
     print("======================");
     await user.updatePassword(newPassword).catchError((onError) {
       print(onError.toString());

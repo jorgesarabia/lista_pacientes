@@ -7,8 +7,8 @@ class SplashScreen extends StatelessWidget {
       decoration: BoxDecoration(color: Colors.lightBlue),
       child: Center(
         child: SizedBox(
-          width: 100.0,
-          height: 100.0,
+          width: 60.0,
+          height: 60.0,
           child: CircularProgressIndicator(
             backgroundColor: Colors.red,
             valueColor: AlwaysStoppedAnimation(Colors.blue),

@@ -9,6 +9,7 @@ class UserState {
   final bool isSuccess;
   final bool isFailure;
   final String password;
+  final String errorMessage;
 
   UserState({
     @required this.isNameValid,
@@ -19,6 +20,7 @@ class UserState {
     @required this.isSuccess,
     @required this.isFailure,
     @required this.password,
+    @required this.errorMessage,
   });
 
   factory UserState.empty() {
@@ -31,6 +33,7 @@ class UserState {
       isSuccess: false,
       isFailure: false,
       password: "",
+      errorMessage: "",
     );
   }
 
@@ -44,19 +47,24 @@ class UserState {
       isSuccess: false,
       isFailure: false,
       password: "",
+      errorMessage: "",
     );
   }
 
-  factory UserState.failure() {
+  factory UserState.failure({
+    String errorMessage,
+    bool isActualPassValid,
+  }) {
     return UserState(
       isNameValid: true,
-      isActualPassValid: true,
+      isActualPassValid: isActualPassValid ?? true,
       isNewPassValid: true,
       isRetypeNewPassValid: true,
       isSubmitting: false,
       isSuccess: false,
       isFailure: true,
       password: "",
+      errorMessage: errorMessage,
     );
   }
 
@@ -70,6 +78,7 @@ class UserState {
       isSuccess: true,
       isFailure: false,
       password: "",
+      errorMessage: "",
     );
   }
 
@@ -79,6 +88,7 @@ class UserState {
     bool isNewPassValid,
     bool isRetypeNewPassValid,
     String password,
+    String errorMessage,
   }) {
     return copyWith(
       isNameValid: isNameValid,
@@ -89,6 +99,7 @@ class UserState {
       isSubmitting: false,
       isSuccess: false,
       isFailure: false,
+      errorMessage: errorMessage,
     );
   }
 
@@ -101,6 +112,7 @@ class UserState {
     bool isSuccess,
     bool isFailure,
     String password,
+    String errorMessage,
   }) {
     return UserState(
       isNameValid: isNameValid ?? this.isNameValid,
@@ -111,6 +123,7 @@ class UserState {
       isSubmitting: isSubmitting ?? this.isSubmitting,
       isSuccess: isSuccess ?? this.isSuccess,
       isFailure: isFailure ?? this.isFailure,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 }

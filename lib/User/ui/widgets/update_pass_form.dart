@@ -18,7 +18,6 @@ class _UpdatePassFormState extends State<UpdatePassForm> {
 
   String _title = "Actualizar";
   String _messageBox = "Actualizando Password...";
-  String _messageError = "Error al Actualizar Password...";
 
   Singletons _singletons = Singletons();
   UsersModel usersModel;
@@ -57,7 +56,7 @@ class _UpdatePassFormState extends State<UpdatePassForm> {
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text(_messageError), Icon(Icons.error)],
+                  children: [Text(state.errorMessage), Icon(Icons.error)],
                 ),
                 backgroundColor: Colors.red,
               ),
@@ -116,7 +115,7 @@ class _UpdatePassFormState extends State<UpdatePassForm> {
             autocorrect: false,
             validator: (_) {
               return !state.isActualPassValid
-                  ? 'Debe tener más de 6 caracteres'
+                  ? state.errorMessage
                   : null;
             },
           ),
