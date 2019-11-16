@@ -54,6 +54,8 @@ class PacientesRepository {
       print("Hay un error");
       print("=================");
     });
+    user.nroPacientes = list.length;
+    _singletons.setUser(user);
     return list;
   }
 

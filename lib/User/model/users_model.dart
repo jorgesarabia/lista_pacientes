@@ -5,13 +5,15 @@ class UsersModel {
   final String email;
   String nombre;
   int limite;
+  int nroPacientes;
 
   UsersModel({
     Key key,
     @required this.uid,
     @required this.email,
     this.nombre,
-    this.limite
+    this.limite,
+    this.nroPacientes,
   });
 
   @override
@@ -22,6 +24,7 @@ class UsersModel {
       email: $email,
       nombre: $nombre,
       limite: $limite,
+      nroPacientes: $nroPacientes,
     }
     ''';
   }
