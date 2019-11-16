@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/User/repository/cloud_firestore_repository.dart';
 import 'package:lista_pacientes/common/singletons.dart';
@@ -6,6 +7,7 @@ import 'package:lista_pacientes/common/singletons.dart';
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
   final CloudFirestoreRepository _cloudFire = CloudFirestoreRepository();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   Singletons _singletons = Singletons();
 
   AuthRepository({FirebaseAuth firebaseAuth})
@@ -18,9 +20,25 @@ class AuthRepository {
     );
   }
 
+  Future<FirebaseUser> signInWithGoogle() async {
+    await _googleSignIn.signOut();
+    GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+    GoogleSignInAuthentication gSA = await googleSignInAccount.authentication;
+
+    FirebaseUser user = await _firebaseAuth.signInWithCredential(
+      GoogleAuthProvider.getCredential(
+        idToken: gSA.idToken,
+        accessToken: gSA.accessToken,
+      ),
+    );
+
+    return user;
+  }
+
   Future<void> signOut() async {
     return Future.wait([
       _firebaseAuth.signOut(),
+      _googleSignIn.signOut(),
     ]);
   }
 

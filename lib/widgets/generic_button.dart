@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 class GenericButton extends StatelessWidget {
   final VoidCallback _onPressed;
   final String title;
+  final Color color = Colors.lightBlue;
 
-  GenericButton({Key key, VoidCallback onPressed, @required this.title})
-      : _onPressed = onPressed,
+  GenericButton({
+    Key key,
+    VoidCallback onPressed,
+    Color color,
+    @required this.title,
+  })  : _onPressed = onPressed,
         super(key: key);
 
   @override
@@ -16,6 +21,7 @@ class GenericButton extends StatelessWidget {
       ),
       onPressed: _onPressed,
       child: Text(title),
+      color: color ?? Colors.lightBlue,
     );
   }
 }

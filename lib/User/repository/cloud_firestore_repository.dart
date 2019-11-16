@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:lista_pacientes/User/model/users_model.dart';
 import 'package:lista_pacientes/common/singletons.dart';
 
@@ -37,6 +36,7 @@ class CloudFirestoreRepository {
   }
 
   Future<void> updateUserData(UsersModel user) async {
+    print("Se actualiza o se crea el usuario");
     DocumentReference ref = _db.collection(USERS).document(user.uid);
     await ref.get().then((DocumentSnapshot s) {
       if (s.exists) {

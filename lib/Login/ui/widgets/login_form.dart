@@ -4,6 +4,7 @@ import 'package:lista_pacientes/Login/bloc/bloc.dart';
 import 'package:lista_pacientes/Login/ui/widgets/login_button.dart';
 import 'package:lista_pacientes/User/repository/auth_repository.dart';
 import 'package:lista_pacientes/common/authentication_bloc/bloc.dart';
+import 'package:lista_pacientes/widgets/generic_button.dart';
 
 class LoginForm extends StatefulWidget {
   final AuthRepository _authRepository;
@@ -124,6 +125,18 @@ class _LoginFormState extends State<LoginForm> {
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        GenericButton(
+                          title: "Ingresar con cuenta de Google",
+                          onPressed: _googleLogin,
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -131,6 +144,10 @@ class _LoginFormState extends State<LoginForm> {
         },
       ),
     );
+  }
+
+  void _googleLogin() {
+    _loginBloc.add(LoginWithGooglePressed());
   }
 
   @override

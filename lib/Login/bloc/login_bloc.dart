@@ -43,6 +43,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         email: event.email,
         password: event.password,
       );
+    } else if (event is LoginWithGooglePressed) {
+      yield* _mapLoginWithGooglePressedToState();
     }
   }
 
@@ -65,6 +67,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield LoginState.loading();
     try {
       await _authRepository.signInWithCredentials(email, password);
+      yield LoginState.success();
+    } catch (_) {
+      yield LoginState.failure();
+    }
+  }
+
+  Stream<LoginState> _mapLoginWithGooglePressedToState() async* {
+    yield LoginState.loading();
+    try {
+      await _authRepository.signInWithGoogle();
       yield LoginState.success();
     } catch (_) {
       yield LoginState.failure();
