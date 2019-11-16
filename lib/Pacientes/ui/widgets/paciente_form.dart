@@ -3,8 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lista_pacientes/Pacientes/bloc/bloc.dart';
 import 'package:lista_pacientes/Pacientes/model/pacientes_model.dart';
-import 'package:lista_pacientes/User/model/users_model.dart';
-import 'package:lista_pacientes/common/singletons.dart';
 import 'package:lista_pacientes/widgets/generic_button.dart';
 
 class PacienteForm extends StatefulWidget {
@@ -23,8 +21,6 @@ class _PacienteFormState extends State<PacienteForm> {
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _ciController = TextEditingController();
   final TextEditingController _nroLibretaController = TextEditingController();
-  Singletons _singletons = Singletons();
-  UsersModel _usersModel;
   String _title = "Crear";
   String _messageBox = "Creando Paciente ...";
   String _messageError = "Error al Crear Paciente ..";
@@ -38,7 +34,6 @@ class _PacienteFormState extends State<PacienteForm> {
     _nombreController.addListener(_onNombreChanged);
     _ciController.addListener(_onCiChanged);
     _nroLibretaController.addListener(_onNroLibretaChanged);
-    _usersModel = _singletons.getUser();
     if (widget.pacientesModel != null) {
       _nombreController.text = widget.pacientesModel.nombre;
       _ciController.text = widget.pacientesModel.ci;
@@ -46,10 +41,6 @@ class _PacienteFormState extends State<PacienteForm> {
       _title = "Actualizar";
       _messageBox = "Actualizando Datos ...";
       _messageError = "Error al Actualizar Datos..";
-    }else{
-      if(_usersModel.limite >= _usersModel.nroPacientes){
-        print("Este consultorio llegó al límite");
-      }
     }
   }
 

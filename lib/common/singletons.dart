@@ -16,4 +16,5 @@ class Singletons {
   }
 
   UsersModel getUser() => _user;
+
 }

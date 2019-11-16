@@ -6,6 +6,8 @@ import 'package:lista_pacientes/Pacientes/ui/screens/detail_screen.dart';
 import 'package:lista_pacientes/Pacientes/ui/screens/form_screen.dart';
 import 'package:lista_pacientes/Pacientes/ui/widgets/paciente_card.dart';
 import 'package:lista_pacientes/Pacientes/ui/widgets/search_button.dart';
+import 'package:lista_pacientes/common/singletons.dart';
+import 'package:lista_pacientes/widgets/about_screen.dart';
 
 class PacientesLista extends StatefulWidget {
   @override
@@ -18,6 +20,7 @@ class _PacientesListaState extends State<PacientesLista> {
   Widget _searchIcon = Icon(Icons.search);
   final TextEditingController _searchController = TextEditingController();
   FindBloc _findBloc;
+  Singletons _singletons = Singletons();
 
   @override
   void initState() {
@@ -87,7 +90,6 @@ class _PacientesListaState extends State<PacientesLista> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("Se debe cargar un nuevo Paciente");
           Navigator.push(
             context,
             MaterialPageRoute(

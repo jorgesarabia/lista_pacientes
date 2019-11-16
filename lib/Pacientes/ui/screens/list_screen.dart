@@ -4,8 +4,9 @@ import 'package:lista_pacientes/Pacientes/find_bloc/bloc.dart';
 import 'package:lista_pacientes/Pacientes/ui/widgets/pacientes_lista.dart';
 import 'package:lista_pacientes/User/ui/screens/update_user_screen.dart';
 import 'package:lista_pacientes/common/authentication_bloc/bloc.dart';
+import 'package:lista_pacientes/widgets/about_screen.dart';
 
-enum MenuOptions { editProfile, logOut }
+enum MenuOptions { editProfile, about, logOut }
 
 class ListScreen extends StatelessWidget {
   @override
@@ -28,6 +29,17 @@ class ListScreen extends StatelessWidget {
                     Text("Configuración"),
                   ]),
                 ),
+                PopupMenuItem(
+                  value: MenuOptions.about,
+                  child: Row(children: <Widget>[
+                    Icon(Icons.info_outline),
+                    SizedBox(
+                      width: 15.0,
+                    ),
+                    Text("About"),
+                  ]),
+                ),
+                PopupMenuDivider(),
                 PopupMenuItem(
                   value: MenuOptions.logOut,
                   child: Row(children: <Widget>[
@@ -58,6 +70,13 @@ class ListScreen extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (BuildContext context) => UpdateUserScreen()),
+        );
+        break;
+      case MenuOptions.about:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => AboutScreen()),
         );
         break;
       case MenuOptions.logOut:
