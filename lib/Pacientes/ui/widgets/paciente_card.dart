@@ -61,7 +61,7 @@ class PacienteCard extends StatelessWidget {
         shape: BoxShape.circle,
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage("assets/flutter_logo.png"),
+          image: AssetImage("assets/patient.webp"),
         ),
       ),
     );
