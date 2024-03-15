@@ -4,27 +4,26 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  cloud_firestore: ^4.15.9
+  cupertino_icons: ^1.0.6
+  equatable: ^2.0.5
+  firebase_auth: ^4.17.9
   flutter:
     sdk: flutter
-  cloud_firestore: ^0.9.7
-  firebase_auth: ^0.8.1+4
-  google_sign_in: ^4.0.1+1
-  flutter_bloc: ^2.0.0
-  equatable: ^1.0.0
-  meta: ^1.1.6
-  font_awesome_flutter: ^8.4.0
-  url_launcher: ^5.2.5
-
-  cupertino_icons: ^0.1.2
+  flutter_bloc: ^8.1.4
+  font_awesome_flutter: ^10.7.0
+  google_sign_in: ^6.2.1
+  meta: ^1.12.0
+  url_launcher: ^6.2.5
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.7.4
-  mockito: ^4.1.1
+  mockito: ^5.4.4
 
 flutter_icons:
   image_path: "assets/icon.png"
